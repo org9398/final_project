@@ -1,6 +1,7 @@
 ---
 title: "Stretch Exercise 07"
-format: pdf
+author: Olivia Gomez
+format: html
 editor: visual
 ---
 
@@ -68,18 +69,9 @@ data_train %>%
   geom_tile() +
   scale_fill_gradient(low = "white", high = "blue") 
 
-numeric_data <- data_train %>%
-mutate(health = as.numeric(health), 
-       yrsinusg = as.numeric(yrsinusg)) %>%
-  select(!usborn) %>%
-  select_if(is.numeric)
-
-correlation <- cor(numeric_data)
-corrplot(correlation, method = 'number')
-
 ```
 
-I will use accuracy, as my models will be using the classification metric. The cost of an error would be falsely predicting one's health status. Predicting a health status too high could indicate a healthier population, and vice versa for predicting too low, which can have implication on policy interventions. However, the difference predicting between a 2 or a 3, for example, will have less implications and less of a cost for the model.
+I will use accuracy, as my models will be using the classification metric. The cost of an error would be falsely predicting one's health status. Predicting a health status too high could indicate a inaccurately healthier population, and vice versa for predicting too low. Both errors can have implications on policy interventions. However, the difference in predicting between a 2 or a 3, for example, will have less implications and less of a cost for the model.
 
 2\. Come up with Models
 
@@ -103,15 +95,15 @@ recipe <-
   step_zv(all_predictors()) %>%
   step_center(all_predictors()) 
 
-bake(prep(data_rec_model_1, training = data_train), new_data = data_train)
+bake(prep(recipe, training = data_train), new_data = data_train)
 
-# model specification
+# model specification 1
 
 decision_tree_mod <- decision_tree() %>%
   set_engine(engine = "rpart") %>%
   set_mode(mode = "classification")
 
-# model workflow
+# model workflow 1
 
 decision_tree_wf <- workflow() %>%
   add_recipe(recipe) %>%
@@ -125,7 +117,7 @@ Model Specification 2
 
 ```{r}
 
-# knn model specification 
+# model specification 2
 
 knn_mod <-
   nearest_neighbor(neighbors = tune()) %>%
@@ -134,7 +126,7 @@ knn_mod <-
 
 knn_grid <- grid_regular(neighbors(range = c(1, 49)), levels = 8)
 
-# model workflow
+# model workflow 2
 
 knn_wf <- workflow() %>%
   add_recipe(recipe) %>%
@@ -148,7 +140,7 @@ Model Specification 3
 
 ```{r}
 
-# random forest model specification
+# model specification 3
 
 rf_mod <- rand_forest(
   trees = 50,    
@@ -156,10 +148,10 @@ rf_mod <- rand_forest(
   set_mode("classification") %>%
   set_engine("ranger")
 
-# create a workflow 
+# create a workflow 3
 
 rf_wf <- workflow() %>%
-  add_recipe(data_rec_model_3) %>%
+  add_recipe(recipe) %>%
   add_model(rf_mod)
 
 
@@ -188,8 +180,8 @@ print(metrics)
 
 4.  Interpretation
 
-Per the accuracy rate, the model is only accurate in predicting health status 36% of the time. This model is thus not very useful at predicting health status. Implementing this model only utilizing immigration-related demographic factors could be difficult and inaccurate, and highlights the complexity involved with one's self-reported health status. However, a successful model could be helpful, as it could inform policy leaders on how to address low self-reported health.
+Per the accuracy rate, the model is only accurate in predicting health status 37% of the time. This model is thus not very useful at predicting health status. Implementing this model only utilizing a few immigration-related demographic factors could be difficult and inaccurate, and highlights the complexity involved with one's self-reported health status. However, a successful model could be helpful, as it could inform policy leaders on how to address low self-reported health.
 
-One feature engineering choice I may try next to improve upon the result are creating interaction terms. It is clear that several of the variables interact, like citizenship status and years in the US. The more time someone spends in the US, the more likely they are to be a citizen. I may try to create an interaction term to combine the effects of these two variables into one to account for that combined effect. Additionally, another feature engineering tactic I would use is Synthetic Minority Over-sampling Technique (SMOTE). Not all categories of health status have equal frequency in the data set. By using SMOTE, I could balance the classes.
+One feature engineering choice I may try next to improve upon the result are creating interaction terms. It is clear that several of the variables interact, like citizenship status and years in the US. The more time someone spends in the US, the more likely they are to be a citizen. I may try to create an interaction term to combine the effects of these two variables into one to account for that combined effect. Additionally, another feature engineering tactic I would use is Synthetic Minority Over-sampling Technique (SMOTE). Not all categories of health status have equal frequency in the data set, as evidenced through the data visualizations I created during my exploratory data analysis. By using SMOTE, I could balance the classes.
 
-Model choices:
+In terms of modeling choices, I may try to utilize ordinal regression methods instead of classification, which may help improve accuracy of the predictions. Additionally, I will attempt to use a decision tree or KNN which may prove more accurate.
