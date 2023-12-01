@@ -1,8 +1,12 @@
 ---
-title: "Stretch Exercise 07"
-author: Olivia Gomez
-format: html
-editor: visual
+title: "Data Science for Public Policy"
+subtitle: "Stretch Exercise - Assignment 7"
+author: "Olivia Gomez"
+execute:
+  warning: false
+format:
+  html:
+    embed-resources: true
 ---
 
 ## Stretch Exercise - Assignment 7
