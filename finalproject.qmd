@@ -1,0 +1,65 @@
+---
+title: "Data Science for Public Policy"
+subtitle: "Final Project"
+author: "Olivia Gomez, Alicia Helfrich, "
+execute:
+  warning: false
+format:
+  html:
+    embed-resources: true
+---
+
+## Final Project
+
+1\. Background and Literature Review: Describes your research question, why the question\
+is important to governance, policy, or social sciences, and a brief review of the literature\
+that is relevant to your research question. Note that it will likely not be feasible to\
+conduct a thorough literature review for this project, but I expect you to show that you\
+have at least engaged with the existing research in your focus area.
+
+\
+2. Data Sources: This section should describe each of your data sources that you are using\
+for your analysis and include your code to access and read in the data. If the data access\
+includes any manual steps that are not captured in the code (e.g. downloading files in a\
+point-and-click manner) please document those steps here.
+
+```{r}
+
+library(ipumsr)
+library(tidyverse)
+library(tidymodels)
+library(ggplot2)
+library(corrplot)
+library(VGAM)
+library(rpart)
+library(rpart.plot)
+library(hardhat)
+library(ranger)
+```
+
+```{r}
+
+# Reading in NHIS data
+
+ddi <- read_ipums_ddi("data/nhis_00002.xml")
+nhis <- read_ipums_micro(ddi)
+```
+
+\
+3. Data Wrangling and Exploratory Data Analysis: This section should include your code\
+to perform any data cleaning and new variable creation. You should also thoroughly\
+explore your data, including assessing the presence of outliers/unexpected values and\
+identifying and appropriately addressing missingness in any key variables.
+
+\
+4. Data Analysis: This section should include the code to conduct analysis to answer your\
+question of interest. It should include writing explaining why the tools you selected are\
+a good fit for the research question and a justification of key analytic decisions. If you\
+are using machine learning methods, this section should include model evaluation using\
+the methods discussed in class.
+
+\
+5. Discussion of Results: This section should include the interpretation of your results.\
+Please discuss what your results suggest about the answer to your research question\
+of interest. Please also discuss any limitations of your analysis and areas for potential\
+future research.
