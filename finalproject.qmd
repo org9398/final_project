@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Public Policy"
 subtitle: "Final Project"
-author: "Olivia Gomez, Alicia Helfrich, "
+author: "Olivia Gomez, Alicia Helfrich, Allie Gleich, Edward Malcolm"
 execute:
   warning: false
 format:
@@ -23,8 +23,13 @@ for your analysis and include your code to access and read in the data. If the d
 includes any manual steps that are not captured in the code (e.g. downloading files in a\
 point-and-click manner) please document those steps here.
 
-```{r}
+**National Health Interview Survey - 2022**
 
+We are utilizing the National Health Interview Survey results from 2022 as one part of our analysis. This survey is conducted each year to capture statistical information on the amount, distribution, and effects of illness and disability in the United States. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health related characteristics. Below, we will utilize unsupervised machine learning techniques, specifically dimension reduction, to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors.
+
+We used the IPUMS to download the 2022 NHIS data. We read in the data using the ipumsr package.
+
+```{r}
 library(ipumsr)
 library(tidyverse)
 library(tidymodels)
@@ -35,14 +40,17 @@ library(rpart)
 library(rpart.plot)
 library(hardhat)
 library(ranger)
+library(recipes)
 ```
 
 ```{r}
 
 # Reading in NHIS data
 
-ddi <- read_ipums_ddi("data/nhis_00002.xml")
+ddi <- read_ipums_ddi("data/nhis_00003.xml")
 nhis <- read_ipums_micro(ddi)
+
+
 ```
 
 \
@@ -51,12 +59,45 @@ to perform any data cleaning and new variable creation. You should also thorough
 explore your data, including assessing the presence of outliers/unexpected values and\
 identifying and appropriately addressing missingness in any key variables.
 
+```{r}
+
+# Data Cleaning and Subsetting for NHIS
+
+# creating vector for missingness/lack of response coded values 
+missing_values <- c(0, 00, 000, 7, 8, 9, 97, 98, 99, 900, 997, 998, 999) 
+nhis <- nhis %>% 
+  mutate_all(~ ifelse(. %in% missing_values, NA, .))
+
+nhis <- nhis %>%
+  janitor::clean_names() %>%
+  filter(!(health %in% c(7, 8, 9)), 
+         !(yrsinusg %in% c(0, 7, 8, 9)),
+         (age != 0),
+         !(sex %in% c( 7, 8, 9)),
+         !(sexorien %in% c(0, 7, 8)),
+         !(marstat %in% c(00, 99)),
+         !(marst %in% c(00, 99)),
+         !(marstcohab %in% c(0, 9)),
+         !(marriedev %in% c(0, 7, 8, 9)))
+  
+
+nhis$health <- factor(nhis$health, levels = 1:5)
+
+```
+
 \
 4. Data Analysis: This section should include the code to conduct analysis to answer your\
 question of interest. It should include writing explaining why the tools you selected are\
 a good fit for the research question and a justification of key analytic decisions. If you\
 are using machine learning methods, this section should include model evaluation using\
 the methods discussed in class.
+
+Unsupervised Machine Learning using the NHIS
+
+```{r}
+
+
+```
 
 \
 5. Discussion of Results: This section should include the interpretation of your results.\
