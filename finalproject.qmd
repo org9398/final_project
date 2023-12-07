@@ -23,11 +23,11 @@ for your analysis and include your code to access and read in the data. If the d
 includes any manual steps that are not captured in the code (e.g. downloading files in a\
 point-and-click manner) please document those steps here.
 
-**National Health Interview Survey - 2022**
+**Current Population Survey - 2022**
 
-We are utilizing the National Health Interview Survey results from 2022 as one part of our analysis. This survey is conducted each year to capture statistical information on the amount, distribution, and effects of illness and disability in the United States. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health related characteristics. Below, we will utilize unsupervised machine learning techniques, specifically dimension reduction, to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors.
+We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the amount, distribution, and effects of illness and disability in the United States. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health related characteristics. Below, we will utilize unsupervised machine learning techniques, specifically dimension reduction, to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
 
-We used the IPUMS to download the 2022 NHIS data. We read in the data using the ipumsr package.
+We used the IPUMS to download the 2022 CPS data. We read in the data using the ipumsr package.
 
 ```{r}
 library(ipumsr)
@@ -41,15 +41,15 @@ library(rpart.plot)
 library(hardhat)
 library(ranger)
 library(recipes)
+library(srvyr)
+library(haven)
 ```
 
 ```{r}
 
-# Reading in NHIS data
-
-ddi <- read_ipums_ddi("data/nhis_00003.xml")
-nhis <- read_ipums_micro(ddi)
-
+#Loading in the CPS 2022 data from IPUMS
+ddi <- read_ipums_ddi("data/cps_00002.xml")
+cps <- read_ipums_micro(ddi)
 
 ```
 
@@ -61,27 +61,11 @@ identifying and appropriately addressing missingness in any key variables.
 
 ```{r}
 
-# Data Cleaning and Subsetting for NHIS
+# Data Cleaning and Wrangling for CPS
 
-# creating vector for missingness/lack of response coded values 
-missing_values <- c(0, 00, 000, 7, 8, 9, 97, 98, 99, 900, 997, 998, 999) 
-nhis <- nhis %>% 
-  mutate_all(~ ifelse(. %in% missing_values, NA, .))
-
-nhis <- nhis %>%
+cps <- cps %>%
   janitor::clean_names() %>%
-  filter(!(health %in% c(7, 8, 9)), 
-         !(yrsinusg %in% c(0, 7, 8, 9)),
-         (age != 0),
-         !(sex %in% c( 7, 8, 9)),
-         !(sexorien %in% c(0, 7, 8)),
-         !(marstat %in% c(00, 99)),
-         !(marst %in% c(00, 99)),
-         !(marstcohab %in% c(0, 9)),
-         !(marriedev %in% c(0, 7, 8, 9)))
-  
-
-nhis$health <- factor(nhis$health, levels = 1:5)
+  select(-year, -month, -mbpl, -fbpl, -asian, -asecwth) 
 
 ```
 
@@ -92,10 +76,24 @@ a good fit for the research question and a justification of key analytic decisio
 are using machine learning methods, this section should include model evaluation using\
 the methods discussed in class.
 
-Unsupervised Machine Learning using the NHIS
+Unsupervised Machine Learning using the CPS
 
 ```{r}
 
+# creating PCA recipe 
+
+#rec_pca <- recipe(
+  #formula = ~ .,
+  #data = cps) %>%
+  #step_pca(all_predictors(), num_comp = 10, id = "pca") %>%
+  #prep() 
+
+# apply estimated loadings to original data
+
+#cps_pcs <- rec_pca %>%
+#bake(new_data = cps)
+
+# visualize first two components 
 
 ```
 
