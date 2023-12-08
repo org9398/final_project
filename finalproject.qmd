@@ -45,6 +45,8 @@ library(srvyr)
 library(haven)
 library(survey)
 library(tidyclust)
+library(GGally)
+library(patchwork)
 ```
 
 ```{r}
@@ -75,6 +77,8 @@ missing_counts <- colSums(cps_na)
 
 print(missing_counts[missing_counts > 0])
 
+# missing values are ones that are not part of the ASEC supplemental, so we filter those observations out
+
 cps <- cps %>%
   filter(!is.na(asecwth)) %>%
   select(-hwtfinl, -wtfinl)
@@ -95,6 +99,17 @@ cps <- cps %>%
   )) 
 
 cps <- cps %>%
+  mutate(healthinsu = factor(healthinsu, levels = c(
+    "medicaid", "medicare", "private", "employment based", 
+    "direct purchase", "marketplace", "tricare", 
+    "indian health service"
+  ), labels = c(
+    "Medicaid", "Medicare", "Private", "Employment Based", 
+    "Direct Purchase", "Marketplace", "Tricare", 
+    "Indian Health Service"
+  )))
+
+cps <- cps %>%
   filter(!is.na(anycovnw)) %>%
   select(-himcaidnw, -himcarenw, -prvtcovnw, -grpcovnw, -dpcovnw, -mrkcovnw, -trccovnw, -inhcovnw) %>%
   mutate(healthinsu = as_factor(healthinsu))
@@ -102,9 +117,11 @@ cps <- cps %>%
 
 cps_svy <- as_survey_design(.data = cps, weights = asecwt) 
 
-
 cps <- cps %>%
   mutate_all(as.numeric)
+
+cps <- cps %>%
+  select(-asecflag)
 ```
 
 \
@@ -114,27 +131,68 @@ a good fit for the research question and a justification of key analytic decisio
 are using machine learning methods, this section should include model evaluation using\
 the methods discussed in class.
 
-Unsupervised Machine Learning using the CPS
+Part A) Unsupervised Machine Learning using data from the CPS
 
 ```{r}
 
-# creating PCA recipe 
+# correlation plot of data to highlight multicollinearity 
 
+correlation <- cps %>%
+  select(-serial, -cpsid, -asecwth, -pernum, -cpsidp, -cpsidv, -asecwt) %>%
+  cor()
+
+corrplot(correlation, method = 'color')
+
+# creating PCA recipe 
 rec_pca <- recipe(
-  formula = healthinsu ~ .,
+  formula = ~ .,
   data = cps) %>%
-  step_pca(num_comp = 5, id = "pca") %>%
-  prep() 
+  update_role(serial, cpsid, asecwth, pernum, cpsidp, cpsidv, asecwt, new_role = "Id") %>%
+  step_scale(all_predictors()) %>%
+  step_pca(all_predictors(), num_comp = 5) %>%
+  prep(data = cps) 
 
 # apply estimated loadings to original data
-
 cps_pcs <- rec_pca %>%
   bake(new_data = cps)
 
+# Extract Loadings
+coef <- rec_pca %>%
+  tidy(type = "coef", number = 2)
+
 # Extract variance explained
 variance <- rec_pca %>%
-  tidy(id = "pca", type = "variance") 
+  tidy(type = "variance", number = 2) %>%
+  filter(terms == "variance") %>%
+  mutate(pct_var = value/sum(value)) %>%
+  slice_head(n = 5) 
 
+print(variance)
+
+cps_pcs_all <- 
+  bind_cols(cps, cps_pcs)
+
+# making scatterplot to visualize data
+
+plot1 <- cps_pcs_all %>%
+  ggplot(mapping = aes(x = PC1, y = PC2, color = citizen)) +
+  geom_point() + 
+  labs(title = "Scatterplot of PC1 and PC2 by Citizenship",
+       x = "Principal Component 1",
+       y = "Principal Component 2") + 
+  theme(plot.title = element_text(size = 12))
+
+plot2 <- cps_pcs_all %>%
+  ggplot(mapping = aes(x = PC1, y = PC2, color = healthinsu)) +
+  geom_point() + 
+  labs(title = "Scatterplot of PC1 and PC2 by Health Insurance Status",
+       x = "Principal Component 1",
+       y = "Principal Component 2") + 
+  theme(plot.title = element_text(size = 12))
+
+plot1 + plot2
+
+# Creating a kmeans model
 
 # set up cross-validation
 folds <- vfold_cv(cps, v = 5)
@@ -143,15 +201,16 @@ kmeans_rec <- recipe(
 formula = ~ .,
 data = cps
 ) %>%
-  step_zv(all_predictors()) %>%
+  update_role(serial, cpsid, asecwth, pernum, cpsidp, cpsidv, asecwt, new_role = "Id") %>%
   step_dummy(all_nominal(), -all_outcomes()) %>% 
   step_scale(all_predictors()) %>%
-  step_normalize(all_predictors()) %>%
   step_center(all_predictors()) 
 
 kmeans_numeric <- kmeans_rec %>%
 prep() %>%
 bake(new_data = cps)
+
+# hyperparameter tune first to obtain optimal number of clusters
 
 # create a kmeans model object four clusters
 kmeans_spec <- k_means(
@@ -171,11 +230,12 @@ spec = kmeans_spec
 set.seed(20200205)
 
 # fit the model
-#fit <- kmeans_wflow %>%
-#fit(data = cps)
+fit <- kmeans_wflow %>%
+fit(data = cps)
+
 # view the model results
-#tidy(state_data_kmeans) %>%
-#knitr::kable(digits = 2)
+tidy(fit) %>%
+knitr::kable(digits = 2)
 ```
 
 \
