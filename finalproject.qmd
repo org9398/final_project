@@ -25,7 +25,7 @@ point-and-click manner) please document those steps here.
 
 **Current Population Survey - 2022**
 
-We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the amount, distribution, and effects of illness and disability in the United States. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health related characteristics. Below, we will utilize unsupervised machine learning techniques, specifically dimension reduction, to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
+We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the population. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health insurance status. Below, we will utilize unsupervised machine learning techniques, specifically dimension reduction, to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
 
 We used the IPUMS to download the 2022 CPS data. We read in the data using the ipumsr package.
 
@@ -43,6 +43,8 @@ library(ranger)
 library(recipes)
 library(srvyr)
 library(haven)
+library(survey)
+library(tidyclust)
 ```
 
 ```{r}
@@ -65,8 +67,44 @@ identifying and appropriately addressing missingness in any key variables.
 
 cps <- cps %>%
   janitor::clean_names() %>%
-  select(-year, -month, -mbpl, -fbpl, -asian, -asecwth) 
+  select(-year, -month, -mbpl, -fbpl, -asian)
 
+cps_na <- is.na(cps)
+
+missing_counts <- colSums(cps_na)
+
+print(missing_counts[missing_counts > 0])
+
+cps <- cps %>%
+  filter(!is.na(asecwth)) %>%
+  select(-hwtfinl, -wtfinl)
+
+# create variable for health insurance status 
+
+cps <- cps %>%
+  mutate(healthinsu = case_when(
+    himcaidnw == 1 ~ "medicaid", 
+    himcarenw == 1 ~ "medicare",
+    prvtcovnw == 1 ~ "private",
+    grpcovnw == 1 ~ "employment based",
+    dpcovnw == 1 ~ "direct purchase",
+    mrkcovnw == 1 ~ "marketplace",
+    trccovnw == 1 ~ "tricare", 
+    inhcovnw == 1 ~ "indian health service",
+    TRUE ~ NA_character_  
+  )) 
+
+cps <- cps %>%
+  filter(!is.na(anycovnw)) %>%
+  select(-himcaidnw, -himcarenw, -prvtcovnw, -grpcovnw, -dpcovnw, -mrkcovnw, -trccovnw, -inhcovnw) %>%
+  mutate(healthinsu = as_factor(healthinsu))
+  
+
+cps_svy <- as_survey_design(.data = cps, weights = asecwt) 
+
+
+cps <- cps %>%
+  mutate_all(as.numeric)
 ```
 
 \
@@ -82,19 +120,62 @@ Unsupervised Machine Learning using the CPS
 
 # creating PCA recipe 
 
-#rec_pca <- recipe(
-  #formula = ~ .,
-  #data = cps) %>%
-  #step_pca(all_predictors(), num_comp = 10, id = "pca") %>%
-  #prep() 
+rec_pca <- recipe(
+  formula = healthinsu ~ .,
+  data = cps) %>%
+  step_pca(num_comp = 5, id = "pca") %>%
+  prep() 
 
 # apply estimated loadings to original data
 
-#cps_pcs <- rec_pca %>%
-#bake(new_data = cps)
+cps_pcs <- rec_pca %>%
+  bake(new_data = cps)
 
-# visualize first two components 
+# Extract variance explained
+variance <- rec_pca %>%
+  tidy(id = "pca", type = "variance") 
 
+
+# set up cross-validation
+folds <- vfold_cv(cps, v = 5)
+
+kmeans_rec <- recipe(
+formula = ~ .,
+data = cps
+) %>%
+  step_zv(all_predictors()) %>%
+  step_dummy(all_nominal(), -all_outcomes()) %>% 
+  step_scale(all_predictors()) %>%
+  step_normalize(all_predictors()) %>%
+  step_center(all_predictors()) 
+
+kmeans_numeric <- kmeans_rec %>%
+prep() %>%
+bake(new_data = cps)
+
+# create a kmeans model object four clusters
+kmeans_spec <- k_means(
+num_clusters = 4 
+) %>%
+set_engine(
+"stats",
+nstart = 100, iter.max = 1000
+)
+
+# create a workflow
+kmeans_wflow <- workflow(
+preprocessor = kmeans_rec,
+spec = kmeans_spec
+)
+# set a seed because the clusters are not deterministic
+set.seed(20200205)
+
+# fit the model
+#fit <- kmeans_wflow %>%
+#fit(data = cps)
+# view the model results
+#tidy(state_data_kmeans) %>%
+#knitr::kable(digits = 2)
 ```
 
 \
