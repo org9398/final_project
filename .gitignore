@@ -50,3 +50,10 @@ rsconnect/
 
 # Large Files 
 large_data/
+
+.DS_Store
+.env
+.env.R
+final_project.Rproj
+individual_assignment/
+stretch_7/
