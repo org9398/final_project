@@ -29,7 +29,7 @@ We are utilizing the Current Population Survey from 2022 as a major source of da
 
 We used the IPUMS to download the 2022 CPS data. We read in the data using the ipumsr package.
 
-```{r}
+```{r, eval = FALSE}
 library(ipumsr)
 library(tidyverse)
 library(tidymodels)
@@ -52,7 +52,7 @@ library(httr)
 library(jsonlite)
 ```
 
-```{r}
+```{r, eval = FALSE}
 
 #using IPUMS API to access CPS ASEC 2022 data
 
@@ -93,7 +93,7 @@ to perform any data cleaning and new variable creation. You should also thorough
 explore your data, including assessing the presence of outliers/unexpected values and\
 identifying and appropriately addressing missingness in any key variables.
 
-```{r}
+```{r, eval = FALSE}
 
 # Data Cleaning and Wrangling for CPS
 
@@ -162,7 +162,7 @@ the methods discussed in class.
 
 Part A) Unsupervised Machine Learning using data from the CPS
 
-```{r}
+```{r, eval = FALSE}
 
 # correlation plot of data to highlight multicollinearity 
 
@@ -269,7 +269,7 @@ knitr::kable(digits = 2)
 
 Part B) Supervised Machine Learning using data from the CPS
 
-```{r}
+```{r, eval = FALSE}
 #Load in the CPS 2022 data from IPUMS with relevant immigration and health insurance variables.
 
 ddi <- read_ipums_ddi("cps_00005.xml")
