@@ -23,9 +23,13 @@ Previous research in the field has documented historical health and economic dis
 
 Because of these well-documented disparities, it is important for new research and analysis to provide a clearer picture of how these disparities currently materialize in communities to inform policy making.
 
+In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade. Established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants. 
+
 Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
 
 Derose, K. P., Escarce, J. J., & Lurie, N. (2007). Immigrants and health care: sources of vulnerability. *Health affairs*, *26*(5), 1258-1268.
+
+Ku, Leighton. (2011). Health Insurance Coverage and Medical Expenditures of Immigrants and Native-Born Citizens in the United States.*American Journal Of Public Health*, *99*(7), 1322-1328.
 
 Pourat, N., Wallace, S. P., Hadler, M. W., & Ponce, N. (2014). Assessing health care services used by California\'s undocumented immigrant population in 2010. *Health Affairs*, *33*(5), 840-847
 
@@ -282,6 +286,9 @@ knitr::kable(digits = 2)
 ```
 
 Part B) Supervised Machine Learning using data from the CPS
+
+
+Based on prior research, it is apparent that immigrants often struggle to obtain health insurance, either through an employer or independently. However, as an immigrants time in America increases, many of these factors improve. Through a supervised machine learning model, we predict health insurance status of immigrants based on their year of immigration. The variable "anycovly" is coded as 01 for respondents who had health insurance coverage last year and 02 for immigrants who did not.
 
 ```{r, eval = FALSE}
 #Load in the CPS 2022 data from IPUMS with relevant immigration and health insurance variables.
