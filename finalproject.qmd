@@ -17,6 +17,20 @@ that is relevant to your research question. Note that it will likely not be feas
 conduct a thorough literature review for this project, but I expect you to show that you\
 have at least engaged with the existing research in your focus area.
 
+Through data analysis, we attempt to view and articulate how immigration can impact health and economic status and well-being in the United States. By understanding the depth and reach of disparities in these vulnerable communities, decisionmakers can target policies to ensure efficiency and success in improving health and economic outcomes.
+
+Previous research in the field has documented historical health and economic disparities that face immigrant communities, including limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America\'s suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Because of the high rate of uninsurance and poverty in these communities, community health centers are exceedingly important, as they are the largest providers of uncompensated care in the safety net and immigrants face the lowest barriers to care at these locations (Pourat et al, 2014).
+
+Because of these well-documented disparities, it is important for new research and analysis to provide a clearer picture of how these disparities currently materialize in communities to inform policy making.
+
+Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
+
+Derose, K. P., Escarce, J. J., & Lurie, N. (2007). Immigrants and health care: sources of vulnerability. *Health affairs*, *26*(5), 1258-1268.
+
+Pourat, N., Wallace, S. P., Hadler, M. W., & Ponce, N. (2014). Assessing health care services used by California\'s undocumented immigrant population in 2010. *Health Affairs*, *33*(5), 840-847
+
+Suro, R., Wilson, J. H., & Singer, A. (2011). Immigration and poverty in America\'s suburbs. *Metropolitan Opportunity Series*, 1-21.
+
 \
 2. Data Sources: This section should describe each of your data sources that you are using\
 for your analysis and include your code to access and read in the data. If the data access\
@@ -25,9 +39,9 @@ point-and-click manner) please document those steps here.
 
 **Current Population Survey - 2022**
 
-We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the population. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health insurance status. Below, we will utilize unsupervised machine learning techniques, specifically dimension reduction, to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
+We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the population. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health insurance status. Below, we will utilize unsupervised machine learning techniques to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
 
-We used the IPUMS to download the 2022 CPS data. We read in the data using the ipumsr package.
+We used the IPUMS API to download the 2022 CPS data. We read in the data using the ipumsr package.
 
 ```{r, eval = FALSE}
 library(ipumsr)
@@ -82,7 +96,7 @@ data_files <- download_extract(downloadable_extract, api_key = Sys.getenv("ipums
 
 
 #Loading in the CPS 2022 data from IPUMS API
-ddi <- read_ipums_ddi("cps_00003.xml")
+ddi <- read_ipums_ddi("cps_00008.xml")
 cps <- read_ipums_micro(ddi)
 
 ```
