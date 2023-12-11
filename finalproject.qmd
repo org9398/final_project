@@ -11,32 +11,36 @@ format:
 
 # Final Project
 
-## 1. Background and Literature Review: Describes your research question, why the question 
+## The Importance of Health Care
 
-is important to governance, policy, or social sciences, and a brief review of the literature\
-that is relevant to your research question. Note that it will likely not be feasible to\
-conduct a thorough literature review for this project, but I expect you to show that you\
-have at least engaged with the existing research in your focus area.
+Meaningful health care coverage is critical to living a productive, secure and healthy life. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
+Through data analysis, this research project strives to explore health care enrollment by groups in order to articulate how immigration can impact health and economic status in the United States. By understanding the depth and reach of disparities in these vulnerable communities, decisionmakers can target policies to ensure efficiency and success in improving health and economic outcomes.
 
-Through data analysis, we attempt to view and articulate how immigration can impact health and economic status and well-being in the United States. By understanding the depth and reach of disparities in these vulnerable communities, decisionmakers can target policies to ensure efficiency and success in improving health and economic outcomes.
+## Current Literature
 
-Previous research in the field has documented historical health and economic disparities that face immigrant communities, including limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Because of the high rate of uninsurance and poverty in these communities, community health centers are exceedingly important, as they are the largest providers of uncompensated care in the safety net and immigrants face the lowest barriers to care at these locations (Pourat et al, 2014).
+Given the enduring and recognized importance of health care, it has received consistent attention from both public and private agencies. That attention gained additional relevance after the crucial role the health care system played throughout the COVID-19 pandemic.
+Research delving into the historical health and economic disparities that face immigrant communities has focused on limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Because of the high rate of uninsurance and poverty in these communities, community health centers are exceedingly important, as they are the largest providers of uncompensated care in the safety net and immigrants face the lowest barriers to care at these locations (Pourat et al, 2014). More recent studies, including a May 2022 study by the Guttmacher Institute, used the 2019 American Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist disparities by immigration status in access to health insurance, as well as primary and reproductive health care.
 
 Because of these well-documented disparities, it is important for new research and analysis to provide a clearer picture of how these disparities currently materialize in communities to inform policy making.
 
 In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade. Established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
 
+This study will similarly look at how time as a variable impacts health care enrollment by groups, but it will also strive to identify any potential correlations between time and economic status of those same groups.
+
 Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
 
 Derose, K. P., Escarce, J. J., & Lurie, N. (2007). Immigrants and health care: sources of vulnerability. *Health affairs*, *26*(5), 1258-1268.
+
+Fuentes, L., Desai, S., and Dawson, R.. (2022). “New Analyses on US Immigrant Health Care Access Underscore the Need to Eliminate Discriminatory Policies.” Www.guttmacher.org, May. https://doi.org/10.1363/2022.33551.
 
 Ku, Leighton. (2011). Health Insurance Coverage and Medical Expenditures of Immigrants and Native-Born Citizens in the United States.*American Journal Of Public Health*, *99*(7), 1322-1328.
 
 Pourat, N., Wallace, S. P., Hadler, M. W., & Ponce, N. (2014). Assessing health care services used by California's undocumented immigrant population in 2010. *Health Affairs*, *33*(5), 840-847
 
+Schumacher, S., and Presiado, M. (2023). “Health and Health Care Experiences of Immigrants: The 2023 KFF/LA Times Survey of Immigrants.” KFF. September 17, 2023. https://www.kff.org/racial-equity-and-health-policy/issue-brief/health-and-health-care-experiences-of-immigrants-the-2023-kff-la-times-survey-of-immigrants/.
+
 Suro, R., Wilson, J. H., & Singer, A. (2011). Immigration and poverty in America's suburbs. *Metropolitan Opportunity Series*, 1-21.
 
-\
 
 ## 2. Data Sources
 
