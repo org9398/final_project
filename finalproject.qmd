@@ -9,9 +9,10 @@ format:
     embed-resources: true
 ---
 
-## Final Project
+# Final Project
 
-1\. Background and Literature Review: Describes your research question, why the question\
+## 1. Background and Literature Review: Describes your research question, why the question 
+
 is important to governance, policy, or social sciences, and a brief review of the literature\
 that is relevant to your research question. Note that it will likely not be feasible to\
 conduct a thorough literature review for this project, but I expect you to show that you\
@@ -19,11 +20,11 @@ have at least engaged with the existing research in your focus area.
 
 Through data analysis, we attempt to view and articulate how immigration can impact health and economic status and well-being in the United States. By understanding the depth and reach of disparities in these vulnerable communities, decisionmakers can target policies to ensure efficiency and success in improving health and economic outcomes.
 
-Previous research in the field has documented historical health and economic disparities that face immigrant communities, including limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America\'s suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Because of the high rate of uninsurance and poverty in these communities, community health centers are exceedingly important, as they are the largest providers of uncompensated care in the safety net and immigrants face the lowest barriers to care at these locations (Pourat et al, 2014).
+Previous research in the field has documented historical health and economic disparities that face immigrant communities, including limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Because of the high rate of uninsurance and poverty in these communities, community health centers are exceedingly important, as they are the largest providers of uncompensated care in the safety net and immigrants face the lowest barriers to care at these locations (Pourat et al, 2014).
 
 Because of these well-documented disparities, it is important for new research and analysis to provide a clearer picture of how these disparities currently materialize in communities to inform policy making.
 
-In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade. Established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants. 
+In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade. Established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
 
 Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
 
@@ -31,21 +32,20 @@ Derose, K. P., Escarce, J. J., & Lurie, N. (2007). Immigrants and health care: s
 
 Ku, Leighton. (2011). Health Insurance Coverage and Medical Expenditures of Immigrants and Native-Born Citizens in the United States.*American Journal Of Public Health*, *99*(7), 1322-1328.
 
-Pourat, N., Wallace, S. P., Hadler, M. W., & Ponce, N. (2014). Assessing health care services used by California\'s undocumented immigrant population in 2010. *Health Affairs*, *33*(5), 840-847
+Pourat, N., Wallace, S. P., Hadler, M. W., & Ponce, N. (2014). Assessing health care services used by California's undocumented immigrant population in 2010. *Health Affairs*, *33*(5), 840-847
 
-Suro, R., Wilson, J. H., & Singer, A. (2011). Immigration and poverty in America\'s suburbs. *Metropolitan Opportunity Series*, 1-21.
+Suro, R., Wilson, J. H., & Singer, A. (2011). Immigration and poverty in America's suburbs. *Metropolitan Opportunity Series*, 1-21.
 
 \
-2. Data Sources: This section should describe each of your data sources that you are using\
+
+## 2. Data Sources
+
+Data Sources: This section should describe each of your data sources that you are using\
 for your analysis and include your code to access and read in the data. If the data access\
 includes any manual steps that are not captured in the code (e.g. downloading files in a\
 point-and-click manner) please document those steps here.
 
-**Current Population Survey - 2022**
-
-We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the population. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health insurance status. Below, we will utilize unsupervised machine learning techniques to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
-
-We used the IPUMS API to download the 2022 CPS data. We read in the data using the ipumsr package.
+### Library
 
 ```{r, eval = FALSE}
 library(ipumsr)
@@ -68,7 +68,35 @@ library(patchwork)
 library(dotenv)
 library(httr)
 library(jsonlite)
+library(tidycensus)
+library(tigris)
+library(lubridate)
+library(patchwork)
+library(stringr)
+library(dplyr)
+library(themis)
+library(parsnip)
+library(rsample)
+library(yardstick)
+library(vip)
+library(kknn)
+library(caret)
+library(httr)
+library(jsonlite) 
+library(lubridate)
+library(sf)
+library(readr)
+library(stringr)
+library(janitor)
+library(recipes)
+
 ```
+
+### Current Population Survey - 2022
+
+We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the population. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health insurance status. Below, we will utilize unsupervised machine learning techniques to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
+
+We used the IPUMS API to download the 2022 CPS data. We read in the data using the ipumsr package.
 
 ```{r, eval = FALSE}
 
@@ -105,15 +133,142 @@ cps <- read_ipums_micro(ddi)
 
 ```
 
+### American Communities Survey 2017-2022, County-Level Selected Demographics
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+
+# loading data 
+
+variables <- tidycensus::load_variables(2022, "acs5")
+
+acs_2022 <-
+  get_acs(
+  geography = "county",
+  variables = c(
+  "B01003_001", # = Total Population
+  "DP02_0090PE", # = % born in the US
+  "DP02_0093PE", # = % born in PR
+  "DP02_0094PE", # = % foreign born
+  "DP02_0100PE", # = % Native - Entered 2010 or later
+  "DP02_0101PE", # = % Native - Entered before 2010
+  "DP02_0103PE", # = % Foreign - Entered 2010 or later
+  "DP02_0104PE", # = % Foreign - Entered before 2010
+  "DP02_0106PE", # = % Foreign - Europe
+  "DP02_0107PE", # = % Foreign - Asia
+  "DP02_0108PE", # = % Foreign - Africa
+  "DP02_0109PE", # = % Foreign - Oceania
+  "DP02_0110PE", # = % Foreign - Latin America
+  "DP02_0111PE", # = % Foreign - North America
+  "DP05_0037PE", #= % white
+  "DP05_0038PE", # = % black
+  "DP05_0039PE", # = % american indian
+  "DP05_0044PE", # = % Asian
+  "DP05_0052PE", # = % Native american pacific islander
+  "DP02_0065PE", # = % with a bachelors or above
+  "DP03_0062E",  # = Median houshold income
+  "DP02_0152PE", # = % that uses internet use
+  "DP03_0004PE", # = % employed
+  "DP03_0095PE" # = % with health care coverage
+  ),
+  geometry = TRUE,
+  year = 2022, 
+  survey = "acs5",
+  progress = FALSE
+) %>% 
+  janitor::clean_names() %>% 
+    mutate( 
+      variable = case_when(
+      variable == "B01003_001" ~ "total_pop",
+      variable == "DP02_0090P" ~ "born_us",
+      variable == "DP02_0093P" ~ "born_pr",
+      variable == "DP02_0094P" ~ "born_abroad",
+      variable == "DP02_0100P" ~ "native_after_2010",
+      variable == "DP02_0101P" ~ "native_before_2010",
+      variable == "DP02_0103P" ~ "foreign_after_2010",
+      variable == "DP02_0104P" ~ "foreign_before_2010",
+      variable == "DP02_0106P" ~ "nativity_europe",
+      variable == "DP02_0107P" ~ "nativity_asia",
+      variable == "DP02_0108P" ~ "nativity_africa",
+      variable == "DP02_0109P" ~ "nativity_oceania",
+      variable == "DP02_0110P" ~ "nativity_latin",
+      variable == "DP02_0111P" ~ "nativity_north_amer",
+      variable == "DP05_0037P" ~  "race_white",
+      variable == "DP05_0038P" ~ "race_black",
+      variable == "DP05_0039P" ~ "race_native_amer",
+      variable == "DP05_0044P" ~ "race_asian",
+      variable == "DP05_0052P" ~ "race_pacific",
+      variable == "DP02_0065P" ~ "educ_bachelors",
+      variable == "DP03_0062" ~ "median_income",
+      variable == "DP02_0152P" ~ "internet_access",
+      variable == "DP03_0004P" ~ "employed",
+      variable == "DP03_0095P"~ "health_insurance"
+              )) %>%
+  select(- "moe") %>% 
+  #unpivoting columns for each variable
+ pivot_wider(names_from = "variable", values_from = "estimate")
+
+```
+
+### Health and Services Administration Community Health Centers
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+
+#importing from Health and Services Administration
+
+hrsa_health_centers <- read_csv( paste0("https://data.hrsa.gov//DataDownload/DD_Files/","Health_Center_Service_Delivery_and_LookAlike_Sites.csv" )) %>% 
+  janitor::clean_names() 
+  
+#look for missing values for geospacial join
+  #longitudes
+    #sum(is.na(hrsa_health_centers$geocoding_artifact_address_primary_x_coordinate))
+    
+    #x_cord_missing <- subset(hrsa_health_centers, is.na(geocoding_artifact_address_primary_x_coordinate)) %>% 
+      #print(x_cord_missing)
+
+  #latitudes
+    #sum(is.na(hrsa_health_centers$geocoding_artifact_address_primary_y_coordinate))
+    
+    #y_cord_missing <- subset(hrsa_health_centers, is.na(geocoding_artifact_address_primary_y_coordinate))
+
+#there are 25 values missing out of 17192. It isn't isolated to only one state and other data is missing. Will remove those rows
+    
+hrsa_health_centers <- 
+  subset(hrsa_health_centers, !is.na(geocoding_artifact_address_primary_y_coordinate)) #y and x coordinates are missing from same observations, so can just eliminate based on one condition
+
+```
+
+### US Census County Shapefiles
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+
+# URL to the shapefile zip file
+county_url <- "https://www2.census.gov/geo/tiger/TIGER2022/COUNTY/tl_2022_us_county.zip"
+
+# Specify the destination folder where you want to save the downloaded file
+destination_folder <- "COUNTY/tl_2022_us_county.zip"
+
+# Download the shapefile zip file
+download.file(county_url, destfile = file.path(destination_folder, "tl_2022_us_county.zip"), mode = "wb")
+
+# Unzip the downloaded file
+unzip(file.path(destination_folder, "tl_2022_us_county.zip"), exdir = destination_folder)
+
+# Read the shapefile into R
+shapefile <- sf::st_read(file.path(destination_folder, "tl_2022_us_county.shp")) %>% 
+  janitor::clean_names()%>% 
+  select(geometry,geoid) 
+
+```
+
 \
-3. Data Wrangling and Exploratory Data Analysis: This section should include your code\
+## 3. Data Wrangling and Exploratory Analysis 3. Data Wrangling and Exploratory Data Analysis: This section should include your code\
 to perform any data cleaning and new variable creation. You should also thoroughly\
 explore your data, including assessing the presence of outliers/unexpected values and\
 identifying and appropriately addressing missingness in any key variables.
 
-```{r, eval = FALSE}
+#### CPS Data Wrangling and Exploratory Analysis
 
-# Data Cleaning and Wrangling for CPS
+```{r, eval = FALSE}
 
 cps <- cps %>%
   janitor::clean_names() %>%
@@ -171,14 +326,130 @@ cps <- cps %>%
   select(-asecflag)
 ```
 
-\
-4. Data Analysis: This section should include the code to conduct analysis to answer your\
-question of interest. It should include writing explaining why the tools you selected are\
-a good fit for the research question and a justification of key analytic decisions. If you\
-are using machine learning methods, this section should include model evaluation using\
-the methods discussed in class.
+#### ACS, HSA, and Census Data Wrangling
 
-Part A) Unsupervised Machine Learning using data from the CPS
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+
+### SPACIALLY JOIN CENSUS COUNTIES AND HSA DATASET: Aggregate number of health centers by county
+
+  #convert hrsa lat/long points to geometry
+  hrsa_health_centers_geo <- 
+    hrsa_health_centers %>% 
+    st_as_sf(coords = c("geocoding_artifact_address_primary_x_coordinate", "geocoding_artifact_address_primary_y_coordinate"), remove = FALSE, crs = 4269)
+    
+  # new data with geoid
+  hrsa_joined  <- 
+  st_join(hrsa_health_centers_geo, shapefile, join = st_within)
+  
+  # Create column that sums the total number of health centers
+  hrsa_grouped <-  
+  hrsa_joined %>%
+    group_by(geoid) %>%
+    summarize(
+      total_centers = n())
+  
+      #verify that sum of centers = number of rows in hrsa dataset
+      hrsa_grouped %>% 
+        summarize(sum(total_centers)) %>% 
+        print()
+
+
+### FINALIZE SF DATA SET: JOIN ACS TO SPACIAL HSA DATA
+
+#verify that acs data is the same CRS as the joined_data
+st_crs(acs_2022)
+
+#table(acs_2022$geoid)
+
+acs_joined  <- 
+  st_join(acs_2022, hrsa_grouped, left = TRUE) %>% 
+  #replace null values with 0
+  mutate(total_centers = ifelse(is.na(total_centers), 0, total_centers))
+
+#Total centers in joined data set very closely matches that of the hrsa dataset, implies that left join is justified 
+acs_joined %>% 
+  summarize(sum(total_centers)) %>% 
+  print()
+
+### CREATE FINALIZED NON-SF DATASET: Will use for normal ggplots, and analysis between acs immigrant demographics and health center data
+
+acs_joined_nonspac   <- st_drop_geometry(acs_joined) 
+
+  #creating a variable to indicate where, if there is an immigrant population, what nativity accounts for the highest proportion of immigrants
+  
+  nativity_col <- acs_joined %>% 
+    select(geoid.x,nativity_europe,nativity_asia,nativity_africa,nativity_oceania,nativity_latin,nativity_north_amer) %>% 
+    pivot_longer(
+            cols = c(nativity_europe,nativity_asia,nativity_africa,nativity_oceania,nativity_latin,nativity_north_amer),
+            
+            names_to = "top_nativity",
+            
+            values_to = "percent"
+            ) %>% 
+    group_by(geoid.x) %>% 
+    slice(which.max(percent))
+
+  #add "top_nativity" column to the final, non-spacial dataset
+  acs_joined_nonspac  <- 
+    left_join(acs_joined_nonspac,nativity_col,by = "geoid.x")
+
+  #remove null values that were caused due to a 0% immigrant population
+  acs_joined_nonspac <- acs_joined_nonspac %>% 
+     mutate(top_nativity = ifelse(is.na(top_nativity),"no_immigrant", top_nativity)) 
+
+```
+
+## Data Analysis
+
+4.  Data Analysis: This section should include the code to conduct analysis to answer your\
+    question of interest. It should include writing explaining why the tools you selected are\
+    a good fit for the research question and a justification of key analytic decisions. If you\
+    are using machine learning methods, this section should include model evaluation using\
+    the methods discussed in class.
+
+### General Trends within Immigrant Populations
+
+### Geographic Distribution of Immigrant Communities
+
+```{r}
+
+#counties with the highest proportion of immigrants
+acs_joined %>% 
+  select(name,born_abroad,total_centers) %>% 
+  top_n(5, wt = born_abroad) %>% 
+  print()
+
+
+#density plot of number of counties at each level of immigrant population
+immig_geo_density <- 
+acs_joined %>% 
+  select(born_abroad,geoid.x) %>% 
+  group_by(born_abroad) %>% 
+    count()
+
+ggplot(data = immig_geo_density, aes(x = born_abroad))+
+  geom_density(alpha = .3) +
+  labs(title = "Density of Immigrant Counties by Percent of Population Born Abroad",
+       x = "Percent Born Abroad",
+       y = "Number of Counties") +
+  theme(
+    axis.title.x = element_text(size = 14, color = "blue"))
+
+#US Map
+  #crop map to include only the continental US
+  us_cropped <- st_crop(acs_joined, xmin = -125, xmax = -50, ymin = 50, ymax = 20)
+  
+  #map of us counties
+  ggplot() + 
+    geom_sf(data = us_cropped, aes(fill = born_abroad), alpha = 1) +
+    scale_fill_gradient(low = "white",high ="purple") +
+    theme_void()
+  
+```
+
+### Exploring Health Disparities
+
+#### Part A) Unsupervised Machine Learning using data from the CPS
 
 ```{r, eval = FALSE}
 
@@ -285,8 +556,7 @@ tidy(fit) %>%
 knitr::kable(digits = 2)
 ```
 
-Part B) Supervised Machine Learning using data from the CPS
-
+#### Part B: Predicting Immigrant Likelihood for Health Coverage: Supervised Machine Learning using data from the CPS
 
 Based on prior research, it is apparent that immigrants often struggle to obtain health insurance, either through an employer or independently. However, as an immigrants time in America increases, many of these factors improve. Through a supervised machine learning model, we predict health insurance status of immigrants based on their year of immigration. The variable "anycovly" is coded as 01 for respondents who had health insurance coverage last year and 02 for immigrants who did not.
 
@@ -415,6 +685,68 @@ lm_final_fit %>%
 predictions <- 
   lm_final_fit %>% 
   collect_predictions()
+
+```
+
+#### Part 3: Understanding Immigrant Access to Health Centers
+
+##### Descriptive Statistics for Health Centers
+
+```{r}
+
+#Average number of federally qualified health centers in the US in each county
+acs_joined %>% 
+  summarize(mean(total_centers)) %>% 
+  print()
+
+#Median number of federally qualified health centers in the US in each counties
+acs_joined %>% 
+  summarise(median(total_centers)) %>% 
+  print()
+
+#counties with the most community health centers
+acs_joined %>% 
+  select(name,total_centers) %>% 
+  top_n(5, wt = total_centers) %>% 
+  print
+
+#counties with the least community health centers
+acs_joined %>% 
+  select(name,total_centers,born_abroad) %>% 
+  arrange(desc(total_centers)) %>% 
+  tail(5) %>% 
+  print()
+
+```
+
+***Scatter Plot of Relationships Between Immigrant Population and Health Center Access***
+
+```{r}
+
+# log variables for data visualization purposes
+
+acs_joined_nonspac_log <- 
+acs_joined_nonspac %>% 
+  mutate(centers_per_capita = log((total_centers+1)/total_pop), #adding 1 as a constant to ensure there are no undefined values for areas with no centers
+         log_born_abroad = log(born_abroad + 1)) #adding 1 as a constant to ensure there are no undefined values for areas with significant immigrant populations
+
+#create a scatter plot of all immigrants
+acs_joined_nonspac_log %>% 
+  ggplot(aes(x = log_born_abroad, y = centers_per_capita)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "Health Center Access Decreases as the Proportion of Immigrant Population Increases")+
+  theme_minimal() 
+
+
+#create scatter plot comparing european heavy immigrants with latino
+acs_joined_nonspac_log %>% 
+  filter(top_nativity == "nativity_latin" | top_nativity == "nativity_asia" | top_nativity == "nativity_africa") %>% 
+  ggplot(aes(x = log_born_abroad, y = centers_per_capita, fill = top_nativity, color = top_nativity)) +
+  geom_point(alpha = 0.25) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "Health Center Access Decreases as the Proportion of Immigrant Population Increases")+
+  theme_minimal() 
 
 ```
 
