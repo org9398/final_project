@@ -615,6 +615,29 @@ Olivia to write analysis of PCA/KMEANS results
 
 Based on prior research, it is apparent that immigrants often struggle to make a living to support themselves and their families in America. However, as an immigrants time in America increases, some of these economic factors improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. The variable "hhincome" is predicted in the model below.
 
+```{r}
+
+# Visualize how years in the U.S. impacts income
+
+cps_hhincome_viz <- cps %>%
+  filter(yrimmig > 1980) %>%
+  group_by(yrimmig, hhincome) %>%
+  summarise(frequency = n()) %>%
+  ggplot(aes(x = yrimmig, y = hhincome, size = frequency)) + scale_x_continuous(breaks = seq(1980, 2025, by = 5)) + geom_point() + theme_minimal() + labs(
+
+    title = "Years Since Immigration's Impact on Household Income ",
+
+    x = "Years Since Immigration",
+
+    y = "Household Income",
+
+    caption = "Data from the Community Population Survey")
+
+
+print(cps_hhincome_viz)
+```
+
+The plot above shows no specific trend, revealing that increased time in the U.S. does not necessarily lead to increased income for immigrants.
 
 ```{r, eval = FALSE}
 #Split data into training and testing data with the variable of interest set as household income ("hhincome")
