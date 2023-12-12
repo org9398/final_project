@@ -613,14 +613,13 @@ Olivia to write analysis of PCA/KMEANS results
 
 #### Part B: Predicting Immigrant Likelihood for Health Coverage: Supervised Machine Learning using data from the CPS
 
-Based on prior research, it is apparent that immigrants often struggle to obtain health insurance, either through an employer or independently. However, as an immigrants time in America increases, many of these factors improve. Through a supervised machine learning model, we predict health insurance status of immigrants based on their year of immigration. The variable "anycovly" is coded as 01 for respondents who had health insurance coverage last year and 02 for immigrants who did not.
-
+Based on prior research, it is apparent that immigrants often struggle to make a living to support themselves and their families in America. However, as an immigrants time in America increases, some of these economic factors improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. The variable "hhincome" is predicted in the model below.
 
 
 ```{r, eval = FALSE}
-#Split data into training and testing data with the variable of interest set as "any health insurance coverage last year" (anycovly).
+#Split data into training and testing data with the variable of interest set as household income ("hhincome")
 
-split <- initial_split(data = cps, strata = "anycovly", prop = 0.8)
+split <- initial_split(data = cps, strata = "hhincome", prop = 0.8)
 
 
 cps_train <- training(x = split)
@@ -629,15 +628,15 @@ cps_test <- testing(x = split)
 ```
 
 ```{r, eval = FALSE}
-# Create a recipe for the model. Here the predictor is year since immigration (yrimmig) to predict health insurance coverage (anycovyly).
+# Create a recipe for the model. Here the predictor is year since immigration (yrimmig) to predict income.
 
 cps_rec <- 
-  recipe(anycovly ~ ., data = cps_train) %>%
+  recipe(hhincome ~ ., data = cps_train) %>%
   step_dummy(all_nominal_predictors()) %>% 
   step_zv(all_numeric_predictors()) %>%
   step_center(all_numeric_predictors()) %>%
   step_zv(all_predictors()) %>%
-  step_log(anycovly, base = 10)
+  step_log(hhincome, base = 10)
   
 
 bake(prep(cps_rec, training = cps_train), new_data = cps_train)
@@ -787,10 +786,14 @@ Alicia paragraph of key takeaways from analysis
 Olivia paragraph of key takeaways from analysis
 
 Paragraph of limitations and areas for potential research (changes over time)
+Limitations:
+
+While the data used in our analysis paints an accurate picture of immigrants in America as of 2022, by limiting our data to just one year, we are not able to see change overtime or any prior year data. It is likely that during large economic downturns, such as the 2007 financial crisis or COVID-19, immigrants in America experiences even worse conditions that they do now. 
+
+In our analysis we removed all NAs as a way to simplify the data and enable analysis. However, it is likely that many of the NAs in the dataset were not random. Many immigrants may be weary of sharing their income levels or health care status with a surveyor. By leaving out these observations, we are likely biasing our data and drawing inaccurate conclusions about the immigrant population.
 
 -Lack of survey weights means can't extrapolate
 
--only used 2022 data
 
 -could do analysis overtime
 
