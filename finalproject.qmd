@@ -54,6 +54,8 @@ point-and-click manner) please document those steps here.
 ### Library
 
 ```{r, eval = FALSE}
+
+
 library(ipumsr)
 library(tidyverse)
 library(tidymodels)
@@ -96,7 +98,7 @@ library(stringr)
 library(janitor)
 library(recipes)
 
-#set.seed(xxx)
+set.seed(20231215)
 ```
 
 ### Current Population Survey - 2022
@@ -124,9 +126,9 @@ cps_extract_request <- define_extract_cps(
   "CITIZEN", "MBPL", "FBPL", "NATIVITY", "HISPAN", 
   "EMPSTAT", "LABFORCE", "EDUC", "FTOTVAL", "INCTOT", 
   "INCWAGE", "OFFPOV", "MIGSTA1", "WHYMOVE", "MIGRATE1", 
-  "HIMCAIDNW", "HIMCARENW", "ANYCOVNW", "PRVTCOVNW", 
+  "HIMCAIDNW", "HIMCARENW", "ANYCOVNW", "ANYCOVLY", "HHINCOME", "PRVTCOVNW", 
   "GRPCOVNW", "DPCOVNW", "MRKCOVNW", "TRCCOVNW", "INHCOVNW", 
-  "GOTWIC")
+  "GOTWIC", "PAIDGH", "PHINSUR")
 )
 
 submitted_extract <- submit_extract(extract = cps_extract_request, api_key = Sys.getenv("ipums_api_key"))
@@ -332,6 +334,45 @@ cps <- cps %>%
 
 cps <- cps %>%
   select(-asecflag)
+
+
+#Remove NAs
+
+cps <- subset(cps, yrimmig != 0000)
+cps <- subset(cps, paidgh != 00)
+cps <- subset(cps, phinsur != 0)
+cps <- subset(cps, anycovly != 99)
+cps <- subset(cps, empstat != 00)
+cps <- subset(cps, hhincome != 99999999)
+cps <- subset(cps, sex != 9)
+cps <- subset(cps, race != 999)
+cps <- subset(cps, marst != 9)
+cps <- subset(cps, asian != 99)
+cps <- subset(cps, nchild != 0)
+cps <- subset(cps, bpl != 99999)
+cps <- subset(cps, citizen != 9)
+cps <- subset(cps, mbpl != 99999)
+cps <- subset(cps, fbpl != 99999)
+cps <- subset(cps, nativity != 0)
+cps <- subset(cps, hispan != 901)
+cps <- subset(cps, hispan != 902)
+cps <- subset(cps, labforce != 0)
+cps <- subset(cps, educ != 000)
+cps <- subset(cps, educ != 001)
+cps <- subset(cps, educ != 999)
+cps <- subset(cps, ftotval != 9999999999)
+cps <- subset(cps, inctot != 9999999999)
+cps <- subset(cps, inctot != 9999999998)
+cps <- subset(cps, incwage != 9999999999)
+cps <- subset(cps, incwage != 9999999998)
+cps <- subset(cps, offpov != 99)
+cps <- subset(cps, migsta1 != 00)
+cps <- subset(cps, whymove != 00)
+cps <- subset(cps, migrate1 != 0)
+cps <- subset(cps, migrate1 != 9)
+cps <- subset(cps, gotwic != 0)
+
+
 ```
 
 #### ACS, HSA, and Census Data Wrangling
@@ -574,43 +615,12 @@ Olivia to write analysis of PCA/KMEANS results
 
 Based on prior research, it is apparent that immigrants often struggle to obtain health insurance, either through an employer or independently. However, as an immigrants time in America increases, many of these factors improve. Through a supervised machine learning model, we predict health insurance status of immigrants based on their year of immigration. The variable "anycovly" is coded as 01 for respondents who had health insurance coverage last year and 02 for immigrants who did not.
 
-```{r, eval = FALSE}
-#Load in the CPS 2022 data from IPUMS with relevant immigration and health insurance variables.
 
-ddi <- read_ipums_ddi("cps_00005.xml")
-cps_ag <- read_ipums_micro(ddi)
-```
-
-```{r, eval = FALSE}
-#Clean column names
-
-cps_ag <- cps_ag %>%
-  janitor::clean_names()
-
-colnames(cps_ag) <- tolower(colnames(cps_ag))
-```
-
-```{r, eval = FALSE}
-#Remove NAs
-
-cps_ag <- subset(cps_ag, yrimmig != 0000)
-
-cps_ag <- subset(cps_ag, paidgh != 00)
-
-cps_ag <- subset(cps_ag, phinsur != 0)
-
-cps_ag <- subset(cps_ag, anycovly != 99)
-
-cps_ag <- subset(cps_ag, empstat != 00)
-
-cps_ag <- subset(cps_ag, hhincome != 99999999)
-```
 
 ```{r, eval = FALSE}
 #Split data into training and testing data with the variable of interest set as "any health insurance coverage last year" (anycovly).
 
-set.seed(20231125)
-split <- initial_split(data = cps_ag, strata = "anycovly", prop = 0.8)
+split <- initial_split(data = cps, strata = "anycovly", prop = 0.8)
 
 
 cps_train <- training(x = split)
