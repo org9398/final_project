@@ -13,70 +13,36 @@ format:
 
 ## The Importance of Health Care
 
-Meaningful health care coverage is critical to living a productive, secure and healthy\ 
-life. Health insurance facilitates access to care and is associated with lower death rates,\ 
-better health outcomes, and improved productivity. U.S. residents obtain health coverage\ 
-from a variety of private and public sources, such as through their employers or direct\ 
-purchase on the individual market (private sources), as well as through the Medicare,\ 
-Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
+Meaningful health care coverage is critical to living a productive, secure and healthy life. Health insurance facilitates access to care and is associated with lower death rates,  better health outcomes, and improved productivity. U.S. residents obtain health coverage  from a variety of private and public sources, such as through their employers or direct  purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
 
-Through data analysis, this research project strives to explore health care enrollment by\ 
-groups in order to articulate how immigration can impact health and economic status in the\ 
-United States. By understanding the depth and reach of disparities in these vulnerable\ 
-communities, decisionmakers can target policies to ensure efficiency and success in improving\ 
-health and economic outcomes.
+Through data analysis, this research project strives to explore health care enrollment by  groups in order to articulate how immigration can impact health and economic status in the  United States. By understanding the depth and reach of disparities in these vulnerable  communities, decisionmakers can target policies to ensure efficiency and success in improving  health and economic outcomes.
 
 ## Current Literature
 
-Given the enduring and recognized importance of health care, it has received consistent\ 
-attention from both public and private agencies. That attention gained additional relevance\ 
-after the crucial role the health care system played throughout the COVID-19 pandemic.
+Given the enduring and recognized importance of health care, it has received consistent  attention from both public and private agencies. That attention gained additional relevance  after the crucial role the health care system played throughout the COVID-19 pandemic.
 
-Research delving into the historical health and economic disparities that face immigrant\ 
-communities has focused on limited access to health insurance coverage and negative economic\ 
-outcomes related to poverty, like food insecurity and housing instability (Chang, 2019).\
-According to Derose et. al., immigrants "have lower rates of health insurance, use less\ 
-health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born\ 
-residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than\ 
-the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Because of the high\ 
-rate of uninsurance and poverty in these communities, community health centers are exceedingly\ 
-important, as they are the largest providers of uncompensated care in the safety net and\ 
-immigrants face the lowest barriers to care at these locations (Pourat et al, 2014). More\ 
-recent studies, including a May 2022 study by the Guttmacher Institute, used the 2019 American\ 
-Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist\ 
-disparities by immigration status in access to health insurance, as well as primary and\ 
-reproductive health care.
+Research delving into the historical health and economic disparities that face immigrant  communities has focused on limited access to health insurance coverage and negative economic  outcomes related to poverty, like food insecurity and housing instability (Chang, 2019).\
+According to Derose et. al., immigrants "have lower rates of health insurance, use less  health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born  residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than  the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Because of the high  rate of uninsurance and poverty in these communities, community health centers are exceedingly  important, as they are the largest providers of uncompensated care in the safety net and  immigrants face the lowest barriers to care at these locations (Pourat et al, 2014). More  recent studies, including a May 2022 study by the Guttmacher Institute, used the 2019 American  Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist  disparities by immigration status in access to health insurance, as well as primary and  reproductive health care.
 
-Because of these well-documented disparities, it is important for new research and analysis to\ 
-provide a clearer picture of how these disparities currently materialize in communities to inform\ 
-policy making.
+Because of these well-documented disparities, it is important for new research and analysis to  provide a clearer picture of how these disparities currently materialize in communities to inform  policy making.
 
-In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences\ 
-between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were\ 
-categorized as immigrants who had been in the U.S. for less than a decade. Established immigrants\ 
-were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health\ 
-insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered\ 
-by health insurance, where established immigrants were at 63%. These results reveal the impact time\ 
-in America has on the insurance coverage of immigrants.
+In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences  between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were  categorized as immigrants who had been in the U.S. for less than a decade. Established immigrants  were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health  insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered  by health insurance, where established immigrants were at 63%. These results reveal the impact time  in America has on the insurance coverage of immigrants.
 
-This study will similarly look at how time as a variable impacts health care enrollment by groups,\ 
-but it will also strive to identify any potential correlations between time and economic status of\ 
-those same groups.
+This study will similarly look at how time as a variable impacts health care enrollment by groups,  but it will also strive to identify any potential correlations between time and economic status of  those same groups.
 
 Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
 
 Derose, K. P., Escarce, J. J., & Lurie, N. (2007). Immigrants and health care: sources of vulnerability. *Health affairs*, *26*(5), 1258-1268.
 
-Fuentes, L., Desai, S., and Dawson, R.. (2022). “New Analyses on US Immigrant Health Care Access Underscore the Need to Eliminate Discriminatory Policies.” Www.guttmacher.org, May. https://doi.org/10.1363/2022.33551.
+Fuentes, L., Desai, S., and Dawson, R.. (2022). "New Analyses on US Immigrant Health Care Access Underscore the Need to Eliminate Discriminatory Policies." Www.guttmacher.org, May. https://doi.org/10.1363/2022.33551.
 
 Ku, Leighton. (2011). Health Insurance Coverage and Medical Expenditures of Immigrants and Native-Born Citizens in the United States.*American Journal Of Public Health*, *99*(7), 1322-1328.
 
 Pourat, N., Wallace, S. P., Hadler, M. W., & Ponce, N. (2014). Assessing health care services used by California's undocumented immigrant population in 2010. *Health Affairs*, *33*(5), 840-847
 
-Schumacher, S., and Presiado, M. (2023). “Health and Health Care Experiences of Immigrants: The 2023 KFF/LA Times Survey of Immigrants.” KFF. September 17, 2023. https://www.kff.org/racial-equity-and-health-policy/issue-brief/health-and-health-care-experiences-of-immigrants-the-2023-kff-la-times-survey-of-immigrants/.
+Schumacher, S., and Presiado, M. (2023). "Health and Health Care Experiences of Immigrants: The 2023 KFF/LA Times Survey of Immigrants." KFF. September 17, 2023. https://www.kff.org/racial-equity-and-health-policy/issue-brief/health-and-health-care-experiences-of-immigrants-the-2023-kff-la-times-survey-of-immigrants/.
 
 Suro, R., Wilson, J. H., & Singer, A. (2011). Immigration and poverty in America's suburbs. *Metropolitan Opportunity Series*, 1-21.
-
 
 ## 2. Data Sources
 
@@ -130,6 +96,7 @@ library(stringr)
 library(janitor)
 library(recipes)
 
+#set.seed(xxx)
 ```
 
 ### Current Population Survey - 2022
@@ -166,9 +133,12 @@ submitted_extract <- submit_extract(extract = cps_extract_request, api_key = Sys
 downloadable_extract <- wait_for_extract(extract = submitted_extract, api_key = Sys.getenv("ipums_api_key"))
 data_files <- download_extract(downloadable_extract, api_key = Sys.getenv("ipums_api_key"))
 
+file_number <- submitted_extract[["number"]]
+
+ddi_file <- paste0("cps_000", file_number, ".xml")
 
 #Loading in the CPS 2022 data from IPUMS API
-ddi <- read_ipums_ddi("cps_00008.xml")
+ddi <- read_ipums_ddi(ddi_file)
 cps <- read_ipums_micro(ddi)
 
 ```
@@ -301,7 +271,7 @@ shapefile <- sf::st_read(file.path(destination_folder, "tl_2022_us_county.shp"))
 ```
 
 \
-## 3. Data Wrangling and Exploratory Analysis 3. Data Wrangling and Exploratory Data Analysis: This section should include your code\
+\## 3. Data Wrangling and Exploratory Analysis 3. Data Wrangling and Exploratory Data Analysis: This section should include your code\
 to perform any data cleaning and new variable creation. You should also thoroughly\
 explore your data, including assessing the presence of outliers/unexpected values and\
 identifying and appropriately addressing missingness in any key variables.
@@ -355,9 +325,7 @@ cps <- cps %>%
   filter(!is.na(anycovnw)) %>%
   select(-himcaidnw, -himcarenw, -prvtcovnw, -grpcovnw, -dpcovnw, -mrkcovnw, -trccovnw, -inhcovnw) %>%
   mutate(healthinsu = as_factor(healthinsu))
-  
 
-cps_svy <- as_survey_design(.data = cps, weights = asecwt) 
 
 cps <- cps %>%
   mutate_all(as.numeric)
@@ -367,6 +335,8 @@ cps <- cps %>%
 ```
 
 #### ACS, HSA, and Census Data Wrangling
+
+Alicia to write description
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE}
 
@@ -449,6 +419,8 @@ acs_joined_nonspac   <- st_drop_geometry(acs_joined)
 
 ### General Trends within Immigrant Populations
 
+Ed to write about exploratory analysis/data viz
+
 ### Geographic Distribution of Immigrant Communities
 
 ```{r}
@@ -457,7 +429,8 @@ acs_joined_nonspac   <- st_drop_geometry(acs_joined)
 acs_joined %>% 
   select(name,born_abroad,total_centers) %>% 
   top_n(5, wt = born_abroad) %>% 
-  print()
+  print() %>%
+  knitr::kable(digits = 2)
 
 
 #density plot of number of counties at each level of immigrant population
@@ -523,9 +496,11 @@ variance <- rec_pca %>%
   tidy(type = "variance", number = 2) %>%
   filter(terms == "variance") %>%
   mutate(pct_var = value/sum(value)) %>%
-  slice_head(n = 5) 
+  slice_head(n = 10) 
 
 print(variance)
+
+# The first 6 clusters explain nearly 90 % of the variation
 
 cps_pcs_all <- 
   bind_cols(cps, cps_pcs)
@@ -550,10 +525,7 @@ plot2 <- cps_pcs_all %>%
 
 plot1 + plot2
 
-# Creating a kmeans model
-
-# set up cross-validation
-folds <- vfold_cv(cps, v = 5)
+# Creating a kmeans model with 6 clusters
 
 kmeans_rec <- recipe(
 formula = ~ .,
@@ -568,11 +540,10 @@ kmeans_numeric <- kmeans_rec %>%
 prep() %>%
 bake(new_data = cps)
 
-# hyperparameter tune first to obtain optimal number of clusters
 
 # create a kmeans model object four clusters
 kmeans_spec <- k_means(
-num_clusters = 4 
+num_clusters = 6 
 ) %>%
 set_engine(
 "stats",
@@ -584,6 +555,7 @@ kmeans_wflow <- workflow(
 preprocessor = kmeans_rec,
 spec = kmeans_spec
 )
+
 # set a seed because the clusters are not deterministic
 set.seed(20200205)
 
@@ -595,6 +567,8 @@ fit(data = cps)
 tidy(fit) %>%
 knitr::kable(digits = 2)
 ```
+
+Olivia to write analysis of PCA/KMEANS results
 
 #### Part B: Predicting Immigrant Likelihood for Health Coverage: Supervised Machine Learning using data from the CPS
 
@@ -728,6 +702,8 @@ predictions <-
 
 ```
 
+Allie to write analysis of supervised machine learning model
+
 #### Part 3: Understanding Immigrant Access to Health Centers
 
 ##### Descriptive Statistics for Health Centers
@@ -795,3 +771,19 @@ acs_joined_nonspac_log %>%
 Please discuss what your results suggest about the answer to your research question\
 of interest. Please also discuss any limitations of your analysis and areas for potential\
 future research.
+
+Alicia paragraph of key takeaways from analysis
+
+Olivia paragraph of key takeaways from analysis
+
+Paragraph of limitations and areas for potential research (changes over time)
+
+-Lack of survey weights means can't extrapolate
+
+-only used 2022 data
+
+-could do analysis overtime
+
+-removing NAs - ethical implications
+
+Paragraph of policy recommendations
