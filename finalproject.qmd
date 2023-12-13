@@ -11,24 +11,25 @@ format:
 
 # Final Project
 
-## The Importance of Health Care
+## The Importance of Health Care Access and Economic Stability for Immigrant Communities in the United States
 
-Meaningful health care coverage is critical to living a productive, secure and healthy life. Health insurance facilitates access to care and is associated with lower death rates,  better health outcomes, and improved productivity. U.S. residents obtain health coverage  from a variety of private and public sources, such as through their employers or direct  purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
+Meaningful health care coverage is critical to living a productive, secure and healthy life. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
 
-Through data analysis, this research project strives to explore health care enrollment by  groups in order to articulate how immigration can impact health and economic status in the  United States. By understanding the depth and reach of disparities in these vulnerable  communities, decisionmakers can target policies to ensure efficiency and success in improving  health and economic outcomes.
+**Placeholder for intro paragraph on economic outcomes**
+
+Through data analysis, this research project strives to explore health care enrollment by groups in order to articulate how immigration can impact health and economic status in the United States. By understanding the depth and reach of disparities in these vulnerable communities, decision makers can target policies to ensure efficiency and success in improving health and economic outcomes.
 
 ## Current Literature
 
-Given the enduring and recognized importance of health care, it has received consistent  attention from both public and private agencies. That attention gained additional relevance  after the crucial role the health care system played throughout the COVID-19 pandemic.
+Given the recognized importance of health care, it has received consistent attention from both public and private agencies. That attention gained additional relevance after the crucial role the health care system played throughout the COVID-19 pandemic.
 
-Research delving into the historical health and economic disparities that face immigrant  communities has focused on limited access to health insurance coverage and negative economic  outcomes related to poverty, like food insecurity and housing instability (Chang, 2019).\
-According to Derose et. al., immigrants "have lower rates of health insurance, use less  health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born  residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than  the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Because of the high  rate of uninsurance and poverty in these communities, community health centers are exceedingly  important, as they are the largest providers of uncompensated care in the safety net and  immigrants face the lowest barriers to care at these locations (Pourat et al, 2014). More  recent studies, including a May 2022 study by the Guttmacher Institute, used the 2019 American  Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist  disparities by immigration status in access to health insurance, as well as primary and  reproductive health care.
+Research delving into the historical health and economic disparities that face immigrant communities has focused on limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011).
 
-Because of these well-documented disparities, it is important for new research and analysis to  provide a clearer picture of how these disparities currently materialize in communities to inform  policy making.
+Because of the high rate of uninsurance and poverty in these communities, community health centers are exceedingly important, as they are the largest providers of uncompensated care in the safety net and  immigrants face the lowest barriers to care at these locations (Pourat et al, 2014). More recent studies, including a May 2022 study by the Guttmacher Institute, used the 2019 American Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist disparities by immigration status in access to health insurance, as well as primary and reproductive health care.
 
-In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences  between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were  categorized as immigrants who had been in the U.S. for less than a decade. Established immigrants  were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health  insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered  by health insurance, where established immigrants were at 63%. These results reveal the impact time  in America has on the insurance coverage of immigrants.
+Because of these well-documented disparities, it is important for new research and analysis to provide a clearer picture of how these disparities currently materialize in communities to inform policy making.
 
-This study will similarly look at how time as a variable impacts health care enrollment by groups,  but it will also strive to identify any potential correlations between time and economic status of  those same groups.
+In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences  between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were  categorized as immigrants who had been in the U.S. for less than a decade, while established immigrantswere categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
 
 Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
 
@@ -44,17 +45,11 @@ Schumacher, S., and Presiado, M. (2023). "Health and Health Care Experiences of 
 
 Suro, R., Wilson, J. H., & Singer, A. (2011). Immigration and poverty in America's suburbs. *Metropolitan Opportunity Series*, 1-21.
 
-## 2. Data Sources
-
-Data Sources: This section should describe each of your data sources that you are using\
-for your analysis and include your code to access and read in the data. If the data access\
-includes any manual steps that are not captured in the code (e.g. downloading files in a\
-point-and-click manner) please document those steps here.
+## Library & Data Sources 
 
 ### Library
 
 ```{r, eval = FALSE}
-
 
 library(ipumsr)
 library(tidyverse)
@@ -105,7 +100,7 @@ set.seed(20231215)
 
 We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the population. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health insurance status. Below, we will utilize unsupervised machine learning techniques to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
 
-We used the IPUMS API to download the 2022 CPS data. We read in the data using the ipumsr package.
+We used the IPUMS API to download the 2022 CPS data. We read in the data using the ipumsr package. To read in the data, an IPUMS API key is required and read in using the dotevn package.
 
 ```{r, eval = FALSE}
 
@@ -125,10 +120,9 @@ cps_extract_request <- define_extract_cps(
   "FAMSIZE", "NCHILD", "NCHLT5", "BPL", "YRIMMIG", 
   "CITIZEN", "MBPL", "FBPL", "NATIVITY", "HISPAN", 
   "EMPSTAT", "LABFORCE", "EDUC", "FTOTVAL", "INCTOT", 
-  "INCWAGE", "OFFPOV", "MIGSTA1", "WHYMOVE", "MIGRATE1", 
+  "INCWAGE", "OFFPOV", "MIGSTA1", "MIGRATE1", 
   "HIMCAIDNW", "HIMCARENW", "ANYCOVNW", "ANYCOVLY", "HHINCOME", "PRVTCOVNW", 
-  "GRPCOVNW", "DPCOVNW", "MRKCOVNW", "TRCCOVNW", "INHCOVNW", 
-  "GOTWIC", "PAIDGH", "PHINSUR")
+  "GRPCOVNW", "DPCOVNW", "MRKCOVNW", "TRCCOVNW", "INHCOVNW")
 )
 
 submitted_extract <- submit_extract(extract = cps_extract_request, api_key = Sys.getenv("ipums_api_key"))
@@ -147,7 +141,7 @@ cps <- read_ipums_micro(ddi)
 
 ### American Communities Survey 2017-2022, County-Level Selected Demographics
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 # loading data 
 
@@ -223,7 +217,7 @@ acs_2022 <-
 
 ### Health and Services Administration Community Health Centers
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 #importing from Health and Services Administration
 
@@ -251,7 +245,7 @@ hrsa_health_centers <-
 
 ### US Census County Shapefiles
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 # URL to the shapefile zip file
 county_url <- "https://www2.census.gov/geo/tiger/TIGER2022/COUNTY/tl_2022_us_county.zip"
@@ -284,7 +278,7 @@ identifying and appropriately addressing missingness in any key variables.
 
 cps <- cps %>%
   janitor::clean_names() %>%
-  select(-year, -month, -mbpl, -fbpl, -asian)
+  select(-year, -month, -mbpl, -fbpl, -asian, -asecflag)
 
 cps_na <- is.na(cps)
 
@@ -292,10 +286,18 @@ missing_counts <- colSums(cps_na)
 
 print(missing_counts[missing_counts > 0])
 
-# missing values are ones that are not part of the ASEC supplemental, so we filter those observations out
+# there are no NA values, however the CPS missing values are coded as numbers so we address those below
+
+# create a boxplot to visualize any outliers
+boxplot <- boxplot(cps)
+
+boxplot
+
+# there is an outlier in the cpsidv variable, we will ensure that the identifier variable is not used in any analysis and drop it from the dataset
 
 cps <- cps %>%
-  filter(!is.na(asecwth)) 
+  select(-cpsidv)
+  
 
 # create variable for health insurance status 
 
@@ -312,6 +314,8 @@ cps <- cps %>%
     TRUE ~ NA_character_  
   )) 
 
+# ensuring each category is labeled
+
 cps <- cps %>%
   mutate(healthinsu = factor(healthinsu, levels = c(
     "medicaid", "medicare", "private", "employment based", 
@@ -323,41 +327,32 @@ cps <- cps %>%
     "Indian Health Service"
   )))
 
+# removing original dummy variables for health insurance status
+
 cps <- cps %>%
   filter(!is.na(anycovnw)) %>%
   select(-himcaidnw, -himcarenw, -prvtcovnw, -grpcovnw, -dpcovnw, -mrkcovnw, -trccovnw, -inhcovnw) %>%
   mutate(healthinsu = as_factor(healthinsu))
 
+# ensuring all variables are numeric
 
 cps <- cps %>%
   mutate_all(as.numeric)
 
-cps <- cps %>%
-  select(-asecflag)
+
+#Remove NAs coded as numbers
 
 
-#Remove NAs
-
-cps <- subset(cps, yrimmig != 0000)
-cps <- subset(cps, paidgh != 00)
-cps <- subset(cps, phinsur != 0)
 cps <- subset(cps, anycovly != 99)
 cps <- subset(cps, empstat != 00)
 cps <- subset(cps, hhincome != 99999999)
 cps <- subset(cps, sex != 9)
 cps <- subset(cps, race != 999)
 cps <- subset(cps, marst != 9)
-cps <- subset(cps, asian != 99)
-cps <- subset(cps, nchild != 0)
 cps <- subset(cps, bpl != 99999)
 cps <- subset(cps, citizen != 9)
-cps <- subset(cps, mbpl != 99999)
-cps <- subset(cps, fbpl != 99999)
-cps <- subset(cps, nativity != 0)
-cps <- subset(cps, hispan != 901)
 cps <- subset(cps, hispan != 902)
 cps <- subset(cps, labforce != 0)
-cps <- subset(cps, educ != 000)
 cps <- subset(cps, educ != 001)
 cps <- subset(cps, educ != 999)
 cps <- subset(cps, ftotval != 9999999999)
@@ -367,11 +362,10 @@ cps <- subset(cps, incwage != 9999999999)
 cps <- subset(cps, incwage != 9999999998)
 cps <- subset(cps, offpov != 99)
 cps <- subset(cps, migsta1 != 00)
-cps <- subset(cps, whymove != 00)
 cps <- subset(cps, migrate1 != 0)
-cps <- subset(cps, migrate1 != 9)
-cps <- subset(cps, gotwic != 0)
 
+cps <- cps %>%
+  select(-popstat)
 
 ```
 
@@ -379,7 +373,7 @@ cps <- subset(cps, gotwic != 0)
 
 Alicia to write description
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 ### SPACIALLY JOIN CENSUS COUNTIES AND HSA DATASET: Aggregate number of health centers by county
 
@@ -464,7 +458,7 @@ Ed to write about exploratory analysis/data viz
 
 ### Geographic Distribution of Immigrant Communities
 
-```{r}
+```{r, eval = FALSE}
 
 #counties with the highest proportion of immigrants
 acs_joined %>% 
@@ -541,7 +535,14 @@ variance <- rec_pca %>%
 
 print(variance)
 
-# The first 6 clusters explain nearly 90 % of the variation
+coefprint <- coef %>%
+  filter(component %in% c("PC1", "PC2", "PC3", "PC4")) %>%
+  group_by(component) %>%
+  top_n(n = 3, wt = value)
+
+print(coefprint)
+
+# The first 4 clusters explain over 90 % of the variation, so I will also examine the data using a K-means alogrithm using 4 clusters.
 
 cps_pcs_all <- 
   bind_cols(cps, cps_pcs)
@@ -564,9 +565,25 @@ plot2 <- cps_pcs_all %>%
        y = "Principal Component 2") + 
   theme(plot.title = element_text(size = 12))
 
-plot1 + plot2
+plot3 <- cps_pcs_all %>%
+  ggplot(mapping = aes(x = PC3, y = PC4, color = citizen)) +
+  geom_point() + 
+  labs(title = "Scatterplot of PC3 and PC4 by Citizenship",
+       x = "Principal Component 3",
+       y = "Principal Component 4") + 
+  theme(plot.title = element_text(size = 12))
 
-# Creating a kmeans model with 6 clusters
+plot4 <- cps_pcs_all %>%
+  ggplot(mapping = aes(x = PC3, y = PC4, color = healthinsu)) +
+  geom_point() + 
+  labs(title = "Scatterplot of PC3 and PC4 by Health Insurance Status",
+       x = "Principal Component 3",
+       y = "Principal Component 4") + 
+  theme(plot.title = element_text(size = 12))
+
+plot1 + plot2 + plot3 + plot4
+
+# Creating a kmeans model with 4 clusters
 
 kmeans_rec <- recipe(
 formula = ~ .,
@@ -584,7 +601,7 @@ bake(new_data = cps)
 
 # create a kmeans model object four clusters
 kmeans_spec <- k_means(
-num_clusters = 6 
+num_clusters = 4 
 ) %>%
 set_engine(
 "stats",
@@ -597,9 +614,6 @@ preprocessor = kmeans_rec,
 spec = kmeans_spec
 )
 
-# set a seed because the clusters are not deterministic
-set.seed(20200205)
-
 # fit the model
 fit <- kmeans_wflow %>%
 fit(data = cps)
@@ -609,13 +623,20 @@ tidy(fit) %>%
 knitr::kable(digits = 2)
 ```
 
-Olivia to write analysis of PCA/KMEANS results
+In an attempt to broadly understand our CPS dataset, we conducted unsupervised machine learning to summarize variable without a set outcome variable.
+
+First, we visualized correlation among the variables in our dataset. According to the correlation plot, many of the variables are correlated. This highlights the presence of multicollinearity, which led us to perform a Principal Component Analysis on the dataset, which I explain further below. It also shows how variables related to health, income, and immigration are all closely related, further informing our analysis.
+
+Second, we performed a Principal Component Analysis (PCA). This process transforms many
+linearly correlated variables, as was demonstrated in the correlation plot, into a set of linearly uncorrelated variables called principal components. PCA successfully reduced the dimensionality of the dataset, capturing the essential information in the first four principal components, which collectively account for over 90% of the variance.
+
+To delve deeper into the interpretation of these components, we examined the top three contributing variables for each component, as presented in Table XX. This excluded several values for ease of explanation. This focused analysis allows us to highlight key factors driving the variance in the data. Notably, the number of children under 5 is the most influential variable in Component 1, while the year of immigration takes precedence in both Components 2 and 3. Component 4 is primarily driven by age. These findings emphasize the significance of specific variables in shaping the overall structure of the data, shedding light on potential patterns and relationships which we dive deeper into using supervised machine learning below. The plots included visualize the components across two variables of interest in our analysis: health insurance coverage type and citizenship status.
 
 #### Part B: Predicting Immigrant Likelihood for Health Coverage: Supervised Machine Learning using data from the CPS
 
-Based on prior research, it is apparent that immigrants often struggle to make a living to support themselves and their families in America. However, as an immigrants time in America increases, some of these economic factors improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. The variable "hhincome" is predicted in the model below.
+Based on prior research, it is apparent that immigrants often struggle to make a living to support themselves and their families in America. However, as an immigrants time in America increases, some of these economic factors improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. We decided to use year of immigration as its importance was uncovered via our unsupervised machine learning analysis. The variable "hhincome" is predicted in the model below.
 
-```{r}
+```{r, eval = FALSE}
 
 # Visualize how years in the U.S. impacts income
 
@@ -655,11 +676,12 @@ cps_test <- testing(x = split)
 
 cps_rec <- 
   recipe(hhincome ~ ., data = cps_train) %>%
+  update_role(serial, cpsid, asecwth, pernum, cpsidp, cpsidv, asecwt, new_role = "Id") %>%
   step_dummy(all_nominal_predictors()) %>% 
   step_zv(all_numeric_predictors()) %>%
   step_center(all_numeric_predictors()) %>%
   step_zv(all_predictors()) %>%
-  step_log(hhincome, base = 10)
+  step_log(hhincome, base = 10) # flagging we may have get rid of any income variables below zero, as taking the log of a neg number isn't a real number
   
 
 bake(prep(cps_rec, training = cps_train), new_data = cps_train)
@@ -669,7 +691,6 @@ bake(prep(cps_rec, training = cps_train), new_data = cps_train)
 ```{r, eval = FALSE}
 # Set up v-fold cross validation with 10 folds to test the model.
 
-set.seed(12032023)
 folds <- vfold_cv(data = cps_train, v = 10)
 folds
 ```
@@ -740,7 +761,7 @@ Allie to write analysis of supervised machine learning model
 
 ##### Descriptive Statistics for Health Centers
 
-```{r}
+```{r, eval = FALSE}
 
 #Average number of federally qualified health centers in the US in each county
 acs_joined %>% 
@@ -769,7 +790,7 @@ acs_joined %>%
 
 ***Scatter Plot of Relationships Between Immigrant Population and Health Center Access***
 
-```{r}
+```{r, eval = FALSE}
 
 # log variables for data visualization purposes
 
@@ -808,15 +829,13 @@ Alicia paragraph of key takeaways from analysis
 
 Olivia paragraph of key takeaways from analysis
 
-Paragraph of limitations and areas for potential research (changes over time)
-Limitations:
+Paragraph of limitations and areas for potential research (changes over time) Limitations:
 
-While the data used in our analysis paints an accurate picture of immigrants in America as of 2022, by limiting our data to just one year, we are not able to see change overtime or any prior year data. It is likely that during large economic downturns, such as the 2007 financial crisis or COVID-19, immigrants in America experiences even worse conditions that they do now. 
+While the data used in our analysis paints an accurate picture of immigrants in America as of 2022, by limiting our data to just one year, we are not able to see change overtime or any prior year data. It is likely that during large economic downturns, such as the 2007 financial crisis or COVID-19, immigrants in America experiences even worse conditions that they do now.
 
 In our analysis we removed all NAs as a way to simplify the data and enable analysis. However, it is likely that many of the NAs in the dataset were not random. Many immigrants may be weary of sharing their income levels or health care status with a surveyor. By leaving out these observations, we are likely biasing our data and drawing inaccurate conclusions about the immigrant population.
 
 -Lack of survey weights means can't extrapolate
-
 
 -could do analysis overtime
 
