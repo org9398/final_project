@@ -634,7 +634,7 @@ To delve deeper into the interpretation of these components, we examined the top
 
 #### Part B: Predicting Immigrant Likelihood for Health Coverage: Supervised Machine Learning using data from the CPS
 
-Based on prior research, it is apparent that immigrants often struggle to make a living to support themselves and their families in America. However, as an immigrants time in America increases, some of these economic factors improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. We decided to use year of immigration as its importance was uncovered via our unsupervised machine learning analysis. The variable "hhincome" is predicted in the model below.
+Research has shown that immigrants in America face many challenges that impact their social life, mental state, and even physical health.  Many immigrants struggle to make a living that provides their family with a adequate income and health insurance. However, as an immigrants time in America increases, some of these factors are shown to improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. We decided to use year of immigration as its importance was uncovered via our unsupervised machine learning analysis. The variable "hhincome" is predicted in the model below.
 
 ```{r, eval = FALSE}
 
@@ -658,12 +658,23 @@ cps_hhincome_viz <- cps %>%
 print(cps_hhincome_viz)
 ```
 
-The plot above shows no specific trend, revealing that increased time in the U.S. does not necessarily lead to increased income for immigrants.
+The plot above shows no specific trend, revealing that increased time in the U.S. does not necessarily lead to increased income for immigrants. However, the largest concentration of 0 dollar incomes are shown beyond 2020. This shows that many immigrants who immigrated to the U.S. in the last 3 years are currently earning $0 in household income. 
 
 ```{r, eval = FALSE}
+#Remove negative household income values for the linear regression model. Also, remove any NAs that may impact the recipe.
+
+cps_2 <- cps %>%
+  filter(hhincome >= 0) %>%
+  filter(yrimmig > 0)
+
+cps_2 <- na.omit(cps_2)
+
+
+
 #Split data into training and testing data with the variable of interest set as household income ("hhincome")
 
-split <- initial_split(data = cps, strata = "hhincome", prop = 0.8)
+
+split <- initial_split(data = cps_2, strata = "hhincome", prop = 0.8)
 
 
 cps_train <- training(x = split)
@@ -676,16 +687,17 @@ cps_test <- testing(x = split)
 
 cps_rec <- 
   recipe(hhincome ~ ., data = cps_train) %>%
-  update_role(serial, cpsid, asecwth, pernum, cpsidp, cpsidv, asecwt, new_role = "Id") %>%
+  update_role(serial, cpsid, asecwth, pernum, cpsidp, asecwt, new_role = "Id") %>%
   step_dummy(all_nominal_predictors()) %>% 
   step_zv(all_numeric_predictors()) %>%
   step_center(all_numeric_predictors()) %>%
   step_zv(all_predictors()) %>%
-  step_log(hhincome, base = 10) # flagging we may have get rid of any income variables below zero, as taking the log of a neg number isn't a real number
+  step_log(hhincome, base = 10) 
   
 
 bake(prep(cps_rec, training = cps_train), new_data = cps_train)
-     
+
+
 ```
 
 ```{r, eval = FALSE}
@@ -708,10 +720,18 @@ lm_wf <- workflow() %>%
   add_model(lm_mod) 
 
 # fit the model by piping your workflow
+
+
 lm_cv <- lm_wf %>%
   fit_resamples(resamples = folds)
 
 
+
+
+```
+
+
+```{r, eval = FALSE}
 # select the best model based on the "rmse" metric
 lm_best <- lm_cv %>%
   select_best(metric = "rmse")
