@@ -109,7 +109,7 @@ We used the IPUMS API to download the 2022 CPS data. We read in the data using t
 
 #using IPUMS API to access CPS ASEC 2022 data
 
-dotenv::load_dot_env()
+dotenv::load_dot_env(file = ".env")
 
 # Access the values
 ipums_key <- Sys.getenv("ipums_api_key")
@@ -132,7 +132,7 @@ submitted_extract <- submit_extract(extract = cps_extract_request, api_key = Sys
 downloadable_extract <- wait_for_extract(extract = submitted_extract, api_key = Sys.getenv("ipums_api_key"))
 data_files <- download_extract(downloadable_extract, api_key = Sys.getenv("ipums_api_key"))
 
-file_number <- submitted_extract[["number"]]
+file_number <- downloadable_extract[["number"]]
 
 ddi_file <- paste0("cps_000", file_number, ".xml")
 
@@ -267,17 +267,12 @@ shapefile <- sf::st_read(file.path(destination_folder, "tl_2022_us_county.shp"))
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
+# remove variables that won't be used for analysis
+
 cps <- cps %>%
   janitor::clean_names() %>%
   select(-year, -month, -mbpl, -fbpl, -asian, -asecflag)
 
-cps_na <- is.na(cps)
-
-missing_counts <- colSums(cps_na)
-
-print(missing_counts[missing_counts > 0])
-
-# there are no NA values, however the CPS missing values are coded as numbers so we address those below
 
 # create a boxplot to visualize any outliers
 boxplot <- boxplot(cps)
@@ -325,14 +320,8 @@ cps <- cps %>%
   select(-himcaidnw, -himcarenw, -prvtcovnw, -grpcovnw, -dpcovnw, -mrkcovnw, -trccovnw, -inhcovnw) %>%
   mutate(healthinsu = as_factor(healthinsu))
 
-# ensuring all variables are numeric
 
-cps <- cps %>%
-  mutate_all(as.numeric)
-
-
-#Remove NAs coded as numbers
-
+#Remove NAs or NIUs coded as numbers
 
 cps <- subset(cps, anycovly != 99)
 cps <- subset(cps, empstat != 00)
@@ -355,8 +344,18 @@ cps <- subset(cps, offpov != 99)
 cps <- subset(cps, migsta1 != 00)
 cps <- subset(cps, migrate1 != 0)
 
+# dropping popstat variable as it has no variance 
+
 cps <- cps %>%
   select(-popstat)
+
+# final check for any NAs
+
+cps_na <- is.na(cps)
+
+missing_counts <- colSums(cps_na)
+
+print(missing_counts[missing_counts > 0])
 
 ```
 
@@ -374,7 +373,7 @@ There were 78 places in which all born_us, born_abroad, and born_pr were missing
 
 Similar to the ACS, the Census Shapefiles are extremely 'tidy' datasets. There were no missing values with the Shapefiles.
 
-```{r}
+```{r, eval = FALSE}
 
 ##HRSA Exploratory Analysis 
 
@@ -404,7 +403,7 @@ hrsa_health_centers <-
 
 ```
 
-```{r}
+```{r, eval = FALSE}
 ### ACS Missingness Examination
 
 acs_na <- is.na(acs_2022)
@@ -421,7 +420,7 @@ acs_2022 <-
   subset(acs_2022, !is.na(born_us))
 ```
 
-```{r}
+```{r, eval = FALSE}
 #### Census Missingness Examination
 
 geo_na <- is.na(shapefile)
@@ -538,7 +537,7 @@ The below analysis begins with an overarching look at the immigrant landscape in
 
 The below table notes the total population (broken out by immigrants and non-immigrants), median income, an health insurance prevelance by state.
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 # split out states in acs_joined_nonspac
 
@@ -554,11 +553,49 @@ acs_by_state %>%
 
 ```
 
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
+
+cps_graph_1 <- cps %>%
+  mutate(citizen = as.factor(citizen)) %>%
+  filter(citizen == 5) %>%
+  ggplot(aes(x = citizen, fill = factor(anycovly))) +
+  geom_bar(width = 1, stat = "count") +
+  coord_polar("y") +
+  labs(title = "Distribution of Insured vs Uninsured for Noncitizens",
+       fill = "Insurance Status") +
+  scale_fill_manual(values = c("1" = "red", "2" = "blue"),
+                     labels = c("1" = "Uninsured", "2" = "Insured"))
+
+cps_graph_1
+
+
+cps_graph_2 <- cps %>%
+  mutate(citizen = as.factor(citizen)) %>%
+  filter(citizen == 5) %>%
+  ggplot(aes(x = healthinsu, fill = healthinsu)) +  # Added fill aesthetic
+  geom_bar() +
+  geom_text(
+    stat = "count", 
+    aes(label = ..count.., group = healthinsu),
+    position = position_stack(vjust = 0.5),
+    size = 3
+  ) +
+  labs(title = "Distribution of Health Insurance Type for Noncitizens",
+       x = "Health Insurance Status",
+       y = "Count") +
+  scale_fill_brewer()
+
+cps_graph_2
+
+```
+
+The above graphs visualize the distribution of health insurance status and type for noncitizens. Roughly 25% of noncitizens in our sample are uninsured. For those that are insured, Medicaid is the predominant type of insurance. Medicaid is a safety net program that provides insurance to low-income individuals.
+
 #### Geographic Distribution of Immigrant Communities
 
-Analysis shows that a very small proportion of the US counties have a majority, or even quarter of their population that were born outside of the US. As can be seen within the density plot below, the proportion of US counties that were born abroad is not normally distributed, and a has a large right skew. Most US counties have less than 20% of thier population born outside of the US.
+Analysis shows that a very small proportion of the US counties have a majority, or even quarter of their population that were born outside of the US. As can be seen within the density plot below, the proportion of US counties that were born abroad is not normally distributed, and a has a large right skew. Most US counties have less than 20% of their population born outside of the US.
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 #density plot of number of counties at each level of immigrant population
 immig_geo_density <- 
@@ -579,7 +616,7 @@ ggplot(data = immig_geo_density, aes(x = born_abroad))+
 
 The top five counties in the US with the highest proportion of immigrants were mostly concentrated around large metropolitan centers: Los Angeles, New York City, and Miami. The one outlier was in Alaska, in the Aleutians West County. Here the population is incredibly small, and therefore the several thousand immigrants that have settled there comprise 44% of the total county population.
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 #counties with the highest proportion of immigrants
 acs_joined_nonspac %>% 
@@ -591,7 +628,7 @@ acs_joined_nonspac %>%
 
 Additionally, the map of the United States shows similarly that urban areas such as Los Angeles/San Diego, Seattle, Chicago, New York, and Miami are comprised of a high proportion of immigrants. This is denoted by the darker shading below. It should be noted that this map isn't representing the actual population of immigrants living within the respective counties (it could be a case like the Alaska county example above) and may also be deciptive given the size of US counties. Counties on the Eastern half of the country tend to have smaller areas, and therefore the ability to deciper a level of shading is more difficult.
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 #US Map
   #crop map to include only the continental US
@@ -611,12 +648,17 @@ Additionally, the map of the United States shows similarly that urban areas such
 
 #### Part A: Unsupervised Machine Learning using data from the CPS
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
+
+# ensuring all variables are numeric
+
+cps <- cps %>%
+  mutate_all(as.numeric)
 
 # correlation plot of data to highlight multicollinearity 
 
 correlation <- cps %>%
-  select(-serial, -cpsid, -asecwth, -pernum, -cpsidp, -cpsidv, -asecwt) %>%
+  select(-serial, -cpsid, -asecwth, -pernum, -cpsidp, -asecwt) %>%
   cor()
 
 corrplot(correlation, method = 'color')
@@ -625,13 +667,13 @@ corrplot(correlation, method = 'color')
 rec_pca <- recipe(
   formula = ~ .,
   data = cps) %>%
-  update_role(serial, cpsid, asecwth, pernum, cpsidp, cpsidv, asecwt, new_role = "Id") %>%
+  update_role(serial, cpsid, asecwth, pernum, cpsidp, asecwt, new_role = "Id") %>%
   step_scale(all_predictors()) %>%
   step_pca(all_predictors(), num_comp = 5) %>%
   prep(data = cps) 
 
 # apply estimated loadings to original data
-cps_pcs <- rec_pca %>%
+cps_pca <- rec_pca %>%
   bake(new_data = cps)
 
 # Extract Loadings
@@ -656,12 +698,12 @@ print(coefprint)
 
 # The first 4 clusters explain over 90 % of the variation, so I will also examine the data using a K-means alogrithm using 4 clusters.
 
-cps_pcs_all <- 
-  bind_cols(cps, cps_pcs)
+cps_pca_all <- 
+  bind_cols(cps, cps_pca)
 
 # making scatterplot to visualize data
 
-plot1 <- cps_pcs_all %>%
+plot1 <- cps_pca_all %>%
   ggplot(mapping = aes(x = PC1, y = PC2, color = citizen)) +
   geom_point() + 
   labs(title = "Scatterplot of PC1 and PC2 by Citizenship",
@@ -669,7 +711,7 @@ plot1 <- cps_pcs_all %>%
        y = "Principal Component 2") + 
   theme(plot.title = element_text(size = 12))
 
-plot2 <- cps_pcs_all %>%
+plot2 <- cps_pca_all %>%
   ggplot(mapping = aes(x = PC1, y = PC2, color = healthinsu)) +
   geom_point() + 
   labs(title = "Scatterplot of PC1 and PC2 by Health Insurance Status",
@@ -677,7 +719,7 @@ plot2 <- cps_pcs_all %>%
        y = "Principal Component 2") + 
   theme(plot.title = element_text(size = 12))
 
-plot3 <- cps_pcs_all %>%
+plot3 <- cps_pca_all %>%
   ggplot(mapping = aes(x = PC3, y = PC4, color = citizen)) +
   geom_point() + 
   labs(title = "Scatterplot of PC3 and PC4 by Citizenship",
@@ -685,7 +727,7 @@ plot3 <- cps_pcs_all %>%
        y = "Principal Component 4") + 
   theme(plot.title = element_text(size = 12))
 
-plot4 <- cps_pcs_all %>%
+plot4 <- cps_pca_all %>%
   ggplot(mapping = aes(x = PC3, y = PC4, color = healthinsu)) +
   geom_point() + 
   labs(title = "Scatterplot of PC3 and PC4 by Health Insurance Status",
@@ -701,7 +743,7 @@ kmeans_rec <- recipe(
 formula = ~ .,
 data = cps
 ) %>%
-  update_role(serial, cpsid, asecwth, pernum, cpsidp, cpsidv, asecwt, new_role = "Id") %>%
+  update_role(serial, cpsid, asecwth, pernum, cpsidp, asecwt, new_role = "Id") %>%
   step_dummy(all_nominal(), -all_outcomes()) %>% 
   step_scale(all_predictors()) %>%
   step_center(all_predictors()) 
@@ -734,15 +776,34 @@ fit(data = cps)
 tidy(fit) %>%
 knitr::kable(digits = 2)
 
+
+
+
+
+
+#visualization comobing K-Means and PCA findings
+bind_cols(
+cps_pca,
+cluster = fit %>% extract_cluster_assignment() %>% pull(.cluster)
+) %>%
+ggplot(aes(PC1, PC2, color = factor(cluster))) +
+geom_point() +
+labs(title = "K-Means Clusters and PCA") +
+theme_minimal()
+
 ```
 
-In an attempt to broadly understand our CPS dataset, we conducted unsupervised machine learning to summarize variable without a set outcome variable.
+In an attempt to broadly understand our CPS dataset, we conducted unsupervised machine learning to summarize the data without a set outcome variable.
 
 First, we visualized correlation among the variables in our dataset. According to the correlation plot, many of the variables are correlated. This highlights the presence of multicollinearity, which led us to perform a Principal Component Analysis on the dataset, which I explain further below. It also shows how variables related to health, income, and immigration are all closely related, further informing our analysis.
 
 Second, we performed a Principal Component Analysis (PCA). This process transforms many linearly correlated variables, as was demonstrated in the correlation plot, into a set of linearly uncorrelated variables called principal components. PCA successfully reduced the dimensionality of the dataset, capturing the essential information in the first four principal components, which collectively account for over 90% of the variance.
 
-To delve deeper into the interpretation of these components, we examined the top three contributing variables for each component, as presented in Table XX. This excluded several values for ease of explanation. This focused analysis allows us to highlight key factors driving the variance in the data. Notably, the number of children under 5 is the most influential variable in Component 1, while the year of immigration takes precedence in both Components 2 and 3. Component 4 is primarily driven by age. These findings emphasize the significance of specific variables in shaping the overall structure of the data, shedding light on potential patterns and relationships which we dive deeper into using supervised machine learning below. The plots included visualize the components across two variables of interest in our analysis: health insurance coverage type and citizenship status.
+To delve deeper into the interpretation of these components, we examined the top three contributing variables for each component, as presented in the above table. This excluded several values for ease of explanation. This focused analysis allows us to highlight key factors driving the variance in the data. Notably, the number of children under 5 is the most influential variable in Component 1, while the year of immigration takes precedence in both Components 2 and 3. Component 4 is primarily driven by age. These findings emphasize the significance of specific variables in shaping the overall structure of the data, shedding light on potential patterns and relationships which we dive deeper into using supervised machine learning below. The plots included visualize the components across two variables of interest in our analysis: health insurance coverage type and citizenship status.
+
+Third, we conducted cluster analysis using the K-Means clustering algorithm. K-Means clusters similar data points in order to discover natural groupings in the data. We decided to use 4 clusters, as our PCA indicated that the first 4 principal components explain over 90 percent of the variation in the data. In the above table, we can see how each variable contributes to each cluster. An example to highlight would be that it appears that year of immigration, citizenship status, and nativity contributed strongly to defining the characteristic of cluster 3.
+
+To combine both PCA and K-Means analysis, we created a visualization depicting these clusters using PC1 and PC2 to reduce the dimensionality of our analysis and for ease of understanding. The tightly packed nature of the clusters indicates they are not exceedingly different from each other.
 
 #### Part B: Predicting Immigrant Likelihood for Health Coverage: Supervised Machine Learning using data from the CPS
 
@@ -894,7 +955,7 @@ Allie to write analysis of supervised machine learning model
 
 Based on high level descriptive analysis, we found that the average US county has an average of 5 community health centers (or a median of 2). Additionally, as can be seen with the density plot, there are only a small concentration of counties that have more than 50 health centers, and an even lower group that have more than 200.
 
-```{r}
+```{r, eval = FALSE}
 
 #Average number of federally qualified health centers in the US in each county
 acs_joined_nonspac %>% 
@@ -925,7 +986,7 @@ ggplot(data = centers_density, aes(x = total_centers))+
 
 Analysis shows that the counties with the greatest amount of health centers contain highly-populated metropolitan areas: Los Angeles, San Francisco, Miami, Chicago, and San Diego.
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 #counties with the most community health centers
 acs_joined_nonspac %>% 
@@ -935,7 +996,7 @@ acs_joined_nonspac %>%
 
 ```
 
-**Visualizating the Relationship between Immigrant Population and Health Center Access**
+**Visualizing the Relationship between Immigrant Population and Health Center Access**
 
 Based on exploratory analysis, we can see that the number of health centers, understandably, seems to be higher in highly populated areas. Larger urban areas tended to account for outlier counties that had 300+ health centers. If only looking at health center access by the sum of health centers in a county, it could lead to misleading conclusions from the data. For example, just because Los Angeles County has 600+ community health centers, does not necessarily mean that the average immigrant has access to more health centers than another individual in a lower-population county with only 6 health centers.
 
@@ -943,7 +1004,7 @@ In order to truly assess access to health centers, we needed to create a variabl
 
 We then wanted to investigate how the center_per_capita changed as percentage of a county that identifies as an immigrant increases. We hypothesized that there would be a negative correlation between these variables. In order to capture this, we created a scatter plot, with a simple bivariate linear regression run across the two variables. Given that both variables are ratio data and are not normally distributed, and both were on different scales (all centers_capita were extremely small, under 1, and all percentage immigrant values were between 0-100), we decided to take the log of both values. After some experimentation, we found that this most clearly displayed a potential relationship between the two variables.
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 # log variables for data visualization purposes
 
