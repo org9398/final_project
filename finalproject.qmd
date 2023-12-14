@@ -95,6 +95,7 @@ library(readr)
 library(stringr)
 library(janitor)
 library(recipes)
+library(RColorBrewer)
 
 set.seed(20231215)
 ```
@@ -535,7 +536,7 @@ acs_joined_nonspac   <- st_drop_geometry(acs_joined)
 
 The below analysis begins with an overarching look at the immigrant landscape in the United States, from its geographic distribution at the county level to median income levels and prevelance of health insurance. It then proceeds to unsupervised machine learning followed by supervised machine learning in order to predict the likelihood of immigrant health coverage.
 
-The below table notes the total population (broken out by immigrants and non-immigrants), median income, an health insurance prevelance by state.
+The below table notes the total population (broken out by immigrants and non-immigrants), median income, an health insurance prevalance by state.
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -547,8 +548,9 @@ acs_by_state <- acs_joined_nonspac %>%
 # table of all 50 states noting their U.S.-born and born abroad populations, median incomes, and prevelance of having health insurance
 
 acs_by_state %>%
-  group_by(State, drop(State)) %>%
-  summarise(State, sum(total_pop), mean(born_us), mean(born_pr), mean(born_abroad), mean(median_income), health_insurance) %>%
+  distinct(State, .keep_all = TRUE) %>%
+  group_by(State) %>%
+  summarise(State, sum(total_pop), mean(born_us), mean(born_pr), mean(born_abroad), mean(median_income), sum(health_insurance)) %>%
   knitr::kable(digits = 2)
 
 ```
@@ -563,8 +565,9 @@ cps_graph_1 <- cps %>%
   coord_polar("y") +
   labs(title = "Distribution of Insured vs Uninsured for Noncitizens",
        fill = "Insurance Status") +
-  scale_fill_manual(values = c("1" = "red", "2" = "blue"),
-                     labels = c("1" = "Uninsured", "2" = "Insured"))
+scale_fill_brewer(palette = "Pastel1", labels = c("1" = "Uninsured", "2" = "Insured")) +
+  theme_minimal()
+
 
 cps_graph_1
 
@@ -572,8 +575,8 @@ cps_graph_1
 cps_graph_2 <- cps %>%
   mutate(citizen = as.factor(citizen)) %>%
   filter(citizen == 5) %>%
-  ggplot(aes(x = healthinsu, fill = healthinsu)) +  # Added fill aesthetic
-  geom_bar() +
+  ggplot(aes(x = healthinsu)) + 
+  geom_bar(fill = brewer.pal(9, "Set1")[1]) +
   geom_text(
     stat = "count", 
     aes(label = ..count.., group = healthinsu),
@@ -583,7 +586,8 @@ cps_graph_2 <- cps %>%
   labs(title = "Distribution of Health Insurance Type for Noncitizens",
        x = "Health Insurance Status",
        y = "Count") +
-  scale_fill_brewer()
+  scale_fill_brewer() +
+  theme_minimal()
 
 cps_graph_2
 
@@ -952,7 +956,7 @@ predictions <-
 
 ```
 
-The linear regression model above has an RMSE of 0.000438. This error metric represents how often the model strays from the actual values in the CPS dataset when predicting household income. This small RSME indicates that the model is a appropriate fit for the data. This shows that the household income of an immigrant based on their year of immigration is generally linear, which confirms much of the literature on the topic. This serves as additional evidence for policymakers build policy around immigrants, specifically those who are not yet citizens and more recently immigrated to the U.S.  
+The linear regression model above has an RMSE of 0.000438. This error metric represents how often the model strays from the actual values in the CPS dataset when predicting household income. This small RSME indicates that the model is a appropriate fit for the data. This shows that the household income of an immigrant based on their year of immigration is generally linear, which confirms much of the literature on the topic. This serves as additional evidence for policymakers build policy around immigrants, specifically those who are not yet citizens and more recently immigrated to the U.S.
 
 #### Part C: Understanding Immigrant Access to Health Centers
 
