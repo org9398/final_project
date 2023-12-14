@@ -15,7 +15,7 @@ format:
 
 Meaningful health care coverage is critical to living a productive, secure and healthy life. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
 
-**Placeholder for intro paragraph on economic outcomes**
+Often times, healthcare status is associated with one's socioeconomic status. In the United States, healthcare is typically provided through employers. Even through an employer, monthly health insurance payments are costly and can be burdensome to many. However, Obtaining healthcare independently is much more challenging and costly. For these reasons, income and healthcare status are closely related. High income earners are much more likely to be insured than those living at or below the poverty line. Families without health insurance are at risk of large medical bills, in the event of an emergency, that could potentially turn into debt overtime. This vicious cycle makes it almost impossible to pay back any medical bills while getting out of poverty and getting covered by insurance.
 
 **Research Question**
 
@@ -811,13 +811,13 @@ Research has shown that immigrants in America face many challenges that impact t
 
 ```{r, eval = FALSE}
 
-# Visualize how years in the U.S. impacts income
+# Visualize how years in the U.S. impacts income. We included year of immigration to begin in 1980 to avoid the inclusion of some retirees, whose income would likely be zero.
 
 cps_hhincome_viz <- cps %>%
   filter(yrimmig > 1980) %>%
   group_by(yrimmig, hhincome) %>%
   summarise(frequency = n()) %>%
-  ggplot(aes(x = yrimmig, y = hhincome, size = frequency)) + scale_x_continuous(breaks = seq(1980, 2025, by = 5)) + geom_point() + theme_minimal() + labs(
+  ggplot(aes(x = yrimmig, y = hhincome, size = frequency)) + scale_x_continuous(breaks = seq(1980, 2025, by = 5)) + geom_point(alpha = 0.7) + theme_minimal() + labs(
 
     title = "Years Since Immigration's Impact on Household Income ",
 
@@ -831,7 +831,7 @@ cps_hhincome_viz <- cps %>%
 print(cps_hhincome_viz)
 ```
 
-The plot above shows no specific trend, revealing that increased time in the U.S. does not necessarily lead to increased income for immigrants. However, the largest concentration of 0 dollar incomes are shown beyond 2020. This shows that many immigrants who immigrated to the U.S. in the last 3 years are currently earning \$0 in household income.
+The plot above shows no strong trend, revealing that increased time in the U.S. does not necessarily lead to increased income for immigrants. However, the largest concentration of 0 dollar incomes are shown beyond 2020. This shows that many immigrants who immigrated to the U.S. in the last 3 years are currently earning \$0 in household income.
 
 ```{r, eval = FALSE}
 #Remove negative household income values for the linear regression model. Also, remove any NAs that may impact the recipe.
@@ -841,6 +841,8 @@ cps_2 <- cps %>%
   filter(yrimmig > 0)
 
 cps_2 <- na.omit(cps_2)
+
+cps_2$hhincome <- as.numeric(cps_2$hhincome)
 
 
 
@@ -864,8 +866,8 @@ cps_rec <-
   step_dummy(all_nominal_predictors()) %>% 
   step_zv(all_numeric_predictors()) %>%
   step_center(all_numeric_predictors()) %>%
-  step_zv(all_predictors()) %>%
-  step_log(hhincome, base = 10) 
+  step_zv(all_predictors()) 
+
   
 
 bake(prep(cps_rec, training = cps_train), new_data = cps_train)
@@ -894,10 +896,11 @@ lm_wf <- workflow() %>%
 
 # fit the model by piping your workflow
 
+class(cps_2$hhincome)
+
 
 lm_cv <- lm_wf %>%
   fit_resamples(resamples = folds)
-
 
 
 
@@ -940,6 +943,8 @@ lm_final_fit %>%
   collect_metrics(lm_final, summarize = FALSE) %>% 
   print()
 
+
+
 #collect predictions & show testing data predictions
 predictions <- 
   lm_final_fit %>% 
@@ -947,7 +952,7 @@ predictions <-
 
 ```
 
-Allie to write analysis of supervised machine learning model
+The linear regression model above has an RMSE of 0.000438. This error metric represents how often the model strays from the actual values in the CPS dataset when predicting household income. This small RSME indicates that the model is a appropriate fit for the data. This shows that the household income of an immigrant based on their year of immigration is generally linear, which confirms much of the literature on the topic. This serves as additional evidence for policymakers build policy around immigrants, specifically those who are not yet citizens and more recently immigrated to the U.S.  
 
 #### Part C: Understanding Immigrant Access to Health Centers
 
