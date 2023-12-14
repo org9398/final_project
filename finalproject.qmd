@@ -17,9 +17,11 @@ Meaningful health care coverage is critical to living a productive, secure and h
 
 **Placeholder for intro paragraph on economic outcomes**
 
+**Research Question**
+
 Through data analysis, this research project strives to explore health care enrollment by groups in order to articulate how immigration can impact health and economic status in the United States. By understanding the depth and reach of disparities in these vulnerable communities, decision makers can target policies to ensure efficiency and success in improving health and economic outcomes.
 
-## Current Literature
+**Current Literature**
 
 Given the recognized importance of health care, it has received consistent attention from both public and private agencies. That attention gained additional relevance after the crucial role the health care system played throughout the COVID-19 pandemic.
 
@@ -45,11 +47,12 @@ Schumacher, S., and Presiado, M. (2023). "Health and Health Care Experiences of 
 
 Suro, R., Wilson, J. H., & Singer, A. (2011). Immigration and poverty in America's suburbs. *Metropolitan Opportunity Series*, 1-21.
 
-## Library & Data Sources 
+## 2. Data Sources
 
 ### Library
 
-```{r, eval = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
+
 
 library(ipumsr)
 library(tidyverse)
@@ -139,7 +142,9 @@ cps <- read_ipums_micro(ddi)
 
 ```
 
-### American Communities Survey 2017-2022, County-Level Selected Demographics
+### American Communities Survey (ACS) 2017-2022, County-Level Selected Demographics
+
+Our team utilized the 2022, 5-year survey to analyze data on select demographic features of US counties. Particular variables of interest were overall population size of counties, as well as percent of counties that were born abroad and percent of individuals that identified with various demographic groups (race, nativity, ethnicity). Additionally, we pulled data on the percent of individuals with access to health insurance, percent employed, and percent with access to internet.
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -215,7 +220,9 @@ acs_2022 <-
 
 ```
 
-### Health and Services Administration Community Health Centers
+### Health Resources and Services Administration (HRSA) Community Health Center Data
+
+In order to understand the access that particular counties of the US have to community health centers, we are utilizing data available on the US Health and Services Administration website. The dataset has a comprehensive listing of federally-qualified community health centers, or unregistered equivalent organizations. The data set, while useful, only included latitude and longitude values for each of the health centers, and therefor could not be directly joined to the American Communities Survey Dataset. There were a number of
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -224,26 +231,12 @@ acs_2022 <-
 hrsa_health_centers <- read_csv( paste0("https://data.hrsa.gov//DataDownload/DD_Files/","Health_Center_Service_Delivery_and_LookAlike_Sites.csv" )) %>% 
   janitor::clean_names() 
   
-#look for missing values for geospacial join
-  #longitudes
-    #sum(is.na(hrsa_health_centers$geocoding_artifact_address_primary_x_coordinate))
-    
-    #x_cord_missing <- subset(hrsa_health_centers, is.na(geocoding_artifact_address_primary_x_coordinate)) %>% 
-      #print(x_cord_missing)
-
-  #latitudes
-    #sum(is.na(hrsa_health_centers$geocoding_artifact_address_primary_y_coordinate))
-    
-    #y_cord_missing <- subset(hrsa_health_centers, is.na(geocoding_artifact_address_primary_y_coordinate))
-
-#there are 25 values missing out of 17192. It isn't isolated to only one state and other data is missing. Will remove those rows
-    
-hrsa_health_centers <- 
-  subset(hrsa_health_centers, !is.na(geocoding_artifact_address_primary_y_coordinate)) #y and x coordinates are missing from same observations, so can just eliminate based on one condition
 
 ```
 
 ### US Census County Shapefiles
+
+In order to set our analysis up for geospacial analysis and an assessment of community health centers by US counties, we utilized the US Census' Shapefiles available at the county level. This dataset was utilized to join together the American Communities Survey and Heath Resources and Services Administration's dataset, so that information could be aggregated at the county-level. Please note, the following section of code may need to be run twice in order for the "COUNTY" file to be downloaded and created.
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -266,15 +259,13 @@ shapefile <- sf::st_read(file.path(destination_folder, "tl_2022_us_county.shp"))
 
 ```
 
-\
-\## 3. Data Wrangling and Exploratory Analysis 3. Data Wrangling and Exploratory Data Analysis: This section should include your code\
-to perform any data cleaning and new variable creation. You should also thoroughly\
-explore your data, including assessing the presence of outliers/unexpected values and\
-identifying and appropriately addressing missingness in any key variables.
+## 3. Data Wrangling and Exploratory Analysis
+
+*This section should include your code to perform any data cleaning and new variable creation. You should also thoroughly explore your data, including assessing the presence of outliers/unexpected values and identifying and appropriately addressing missingness in any key variables.*
 
 #### CPS Data Wrangling and Exploratory Analysis
 
-```{r, eval = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 cps <- cps %>%
   janitor::clean_names() %>%
@@ -369,22 +360,106 @@ cps <- cps %>%
 
 ```
 
-#### ACS, HSA, and Census Data Wrangling
+#### ACS, HRA, and Census Data Wrangling
 
-Alicia to write description
+**Assessing Missingness:**
+
+The HRSA dataset was one of the messier datasets we worked with, and it had a number of data missing across a range of variables. However, we prioritized the variables that would be of core importance to the analysis. While a number of health centers didn't have a phone number listed, for example, we didn't feel that this justified removing it all together from the dataset. This is because phone number is not a variable of interest in the analysis, and the lack of a phone number doesn't indicate that the health center does not exist. The majority of variables with missing variables were non-consequential to the analysis, and were ignored.
+
+The one exception was with missing latitude and longitude values, as this would compromise a geospacial join. There were 25 centers without a latitude and longitude values listed, and none with only one or the other. It didn't appear that values were missing in a systematic fashion, such as for a particular state. For this reason, as well as the relatively small amount of observations that were missing values in comparison to the overall dataset (25 out of over 17,000), we decided to drop these observations.
+
+The ACS dataset is a well-prepared data source provided by the US Census Bureau and therefore required minimal cleaning. Similar to above, there were a relatively small number of missing values for the most consequential variables: born_abroad, nativity fields, and born_us.
+
+There were 78 places in which all born_us, born_abroad, and born_pr were missing. Upon further investigation we found that all of these variables were for Puerto Rican counties. Given that strong analysis could not be conducted for Puerto Rico for this reason, these observations were dropped. Additionally, other variables missing from this dataset were due to a "logic" built into the preparation of the data. For example, if a county reported that 100% of individuals were us born, then nativity fields were left with null values. These observations were not touched.
+
+Similar to the ACS, the Census Shapefiles are extremely 'tidy' datasets. There were no missing values with the Shapefiles.
+
+```{r}
+
+##HRSA Exploratory Analysis 
+
+hrsa_na <- is.na(hrsa_health_centers)
+
+hrsa_missing_counts <- colSums(hrsa_na)
+
+print(hrsa_missing_counts[hrsa_missing_counts > 0])
+
+##Special examination of latitude and longitude values
+
+  #longitudes
+    #sum(is.na(hrsa_health_centers$geocoding_artifact_address_primary_x_coordinate))
+    
+    #x_cord_missing <- subset(hrsa_health_centers, is.na(geocoding_artifact_address_primary_x_coordinate)) %>% 
+      #print(x_cord_missing)
+
+  #latitudes
+    #sum(is.na(hrsa_health_centers$geocoding_artifact_address_primary_y_coordinate))
+    
+    #y_cord_missing <- subset(hrsa_health_centers, is.na(geocoding_artifact_address_primary_y_coordinate))
+
+#there are 25 values missing out of 17192. It isn't isolated to only one state and other data is missing. Will remove those rows
+    
+hrsa_health_centers <- 
+  subset(hrsa_health_centers, !is.na(geocoding_artifact_address_primary_y_coordinate)) #y and x coordinates are missing from same observations, so can just eliminate based on one condition
+
+```
+
+```{r}
+### ACS Missingness Examination
+
+acs_na <- is.na(acs_2022)
+
+acs_missing_counts <- colSums(acs_na)
+
+print(acs_missing_counts[acs_missing_counts > 0])
+
+# counties in Puerto Rico were not provided with estimate numbers
+born_us_missing <- subset(acs_2022, is.na(born_us))
+
+#removing Puerto Rico values
+acs_2022 <- 
+  subset(acs_2022, !is.na(born_us))
+```
+
+```{r}
+#### Census Missingness Examination
+
+geo_na <- is.na(shapefile)
+
+geo_missing_counts <- colSums(geo_na)
+
+print(geo_missing_counts[geo_missing_counts > 0])
+
+
+```
+
+As can be observed, given the quality of data sets available, there was not an immense level of cleaning that needed to be conducted.
+
+In regards to the data wrangling for these datasets, ultimate goal was to create a completed, merged data frame that compiles demographic features of each county by the ACS, an aggregate number of health centers in each county from the HRSA, and the corresponding geospacial fields needed to visualize and analyze data at the county level. The following code displays the steps that were taken to do this:
+
+**Step 1: Converting HRSA Dataframe to Spacial Dataframe**
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
-
-### SPACIALLY JOIN CENSUS COUNTIES AND HSA DATASET: Aggregate number of health centers by county
 
   #convert hrsa lat/long points to geometry
   hrsa_health_centers_geo <- 
     hrsa_health_centers %>% 
     st_as_sf(coords = c("geocoding_artifact_address_primary_x_coordinate", "geocoding_artifact_address_primary_y_coordinate"), remove = FALSE, crs = 4269)
+  
+```
+
+**Step 2: Join HRSA SF Dataframe with Census Shapefile, Creating a field for "County" within the HRSA dataset**
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
     
   # new data with geoid
   hrsa_joined  <- 
   st_join(hrsa_health_centers_geo, shapefile, join = st_within)
+```
+
+**Step 3: Group the HRSA SF file by county, creating a field that sums the number of health centers per county**
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
   
   # Create column that sums the total number of health centers
   hrsa_grouped <-  
@@ -398,8 +473,11 @@ Alicia to write description
         summarize(sum(total_centers)) %>% 
         print()
 
+```
 
-### FINALIZE SF DATA SET: JOIN ACS TO SPACIAL HSA DATA
+**Step 4: Join county-level HRSA SF with the ACS dataset, creating new completed Shapefile**
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 #verify that acs data is the same CRS as the joined_data
 st_crs(acs_2022)
@@ -414,9 +492,15 @@ acs_joined  <-
 #Total centers in joined data set very closely matches that of the hrsa dataset, implies that left join is justified 
 acs_joined %>% 
   summarize(sum(total_centers)) %>% 
-  print()
+  knitr::kable(digits = 2)
 
-### CREATE FINALIZED NON-SF DATASET: Will use for normal ggplots, and analysis between acs immigrant demographics and health center data
+```
+
+**Step 5: Create a non-shapefile version of prior dataset** This was used for analysis that will use county-level health center data, but not creating visuals.
+
+Note: In preparation for later analysis, a new variable was created via a left-join, that articulates what the predominant nativity of immigrants in a particular county was.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 acs_joined_nonspac   <- st_drop_geometry(acs_joined) 
 
@@ -444,44 +528,52 @@ acs_joined_nonspac   <- st_drop_geometry(acs_joined)
 
 ```
 
-## Data Analysis
+## 4. Data Analysis
 
-4.  Data Analysis: This section should include the code to conduct analysis to answer your\
-    question of interest. It should include writing explaining why the tools you selected are\
-    a good fit for the research question and a justification of key analytic decisions. If you\
-    are using machine learning methods, this section should include model evaluation using\
-    the methods discussed in class.
+*Data Analysis: This section should include the code to conduct analysis to answer your question of interest. It should include writing explaining why the tools you selected are a good fit for the research question and a justification of key analytic decisions. If you are using machine learning methods, this section should include model evaluation using the methods discussed in class.*
 
 ### General Trends within Immigrant Populations
 
 Ed to write about exploratory analysis/data viz
 
-### Geographic Distribution of Immigrant Communities
+#### Geographic Distribution of Immigrant Communities
 
-```{r, eval = FALSE}
+Analysis shows that a very small proportion of the US counties have a majority, or even quarter of their population that were born outside of the US. As can be seen within the density plot below, the proportion of US counties that were born abroad is not normally distributed, and a has a large right skew. Most US counties have less than 20% of thier population born outside of the US.
 
-#counties with the highest proportion of immigrants
-acs_joined %>% 
-  select(name,born_abroad,total_centers) %>% 
-  top_n(5, wt = born_abroad) %>% 
-  print() %>%
-  knitr::kable(digits = 2)
-
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
 
 #density plot of number of counties at each level of immigrant population
 immig_geo_density <- 
-acs_joined %>% 
+acs_joined_nonspac %>% 
   select(born_abroad,geoid.x) %>% 
   group_by(born_abroad) %>% 
-    count()
+    count() 
 
 ggplot(data = immig_geo_density, aes(x = born_abroad))+
-  geom_density(alpha = .3) +
+  geom_density(alpha = .3, color = "purple") +
   labs(title = "Density of Immigrant Counties by Percent of Population Born Abroad",
-       x = "Percent Born Abroad",
-       y = "Number of Counties") +
+       x = "Percent Born Abroad in County",
+       y = "Density of Counties") +
   theme(
-    axis.title.x = element_text(size = 14, color = "blue"))
+    axis.title.x = element_text(size = 14)) +
+  theme_minimal()
+```
+
+The top five counties in the US with the highest proportion of immigrants were mostly concentrated around large metropolitan centers: Los Angeles, New York City, and Miami. The one outlier was in Alaska, in the Aleutians West County. Here the population is incredibly small, and therefore the several thousand immigrants that have settled there comprise 44% of the total county population.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+
+#counties with the highest proportion of immigrants
+acs_joined_nonspac %>% 
+  select(name,born_abroad,total_centers,) %>% 
+  top_n(5, wt = born_abroad) %>% 
+  knitr::kable(digits = 2)
+
+```
+
+Additionally, the map of the United States shows similar,y that urban areas such as Los Angeles/San Diego, Seattle, Chicago, New York, and Miami are comprised of a high proportion of immigrants. This is denoted by the darker shading below. It should be noted that this map isn't representing the actual population of immigrants living within the respective counties (it could be a case like the Alaska county example above) and may also be deciptive given the size of US counties. Counties on the Eastern half of the country tend to have smaller areas, and therefore the ability to deciper a level of shading is more difficult.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
 
 #US Map
   #crop map to include only the continental US
@@ -491,15 +583,17 @@ ggplot(data = immig_geo_density, aes(x = born_abroad))+
   ggplot() + 
     geom_sf(data = us_cropped, aes(fill = born_abroad), alpha = 1) +
     scale_fill_gradient(low = "white",high ="purple") +
+    labs(title = "Proportion of Counties that are Born Abroad", 
+         fill = "Percent Immigrant") +
     theme_void()
   
 ```
 
 ### Exploring Health Disparities
 
-#### Part A) Unsupervised Machine Learning using data from the CPS
+#### Part A: Unsupervised Machine Learning using data from the CPS
 
-```{r, eval = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
 
 # correlation plot of data to highlight multicollinearity 
 
@@ -621,20 +715,20 @@ fit(data = cps)
 # view the model results
 tidy(fit) %>%
 knitr::kable(digits = 2)
+
 ```
 
 In an attempt to broadly understand our CPS dataset, we conducted unsupervised machine learning to summarize variable without a set outcome variable.
 
 First, we visualized correlation among the variables in our dataset. According to the correlation plot, many of the variables are correlated. This highlights the presence of multicollinearity, which led us to perform a Principal Component Analysis on the dataset, which I explain further below. It also shows how variables related to health, income, and immigration are all closely related, further informing our analysis.
 
-Second, we performed a Principal Component Analysis (PCA). This process transforms many
-linearly correlated variables, as was demonstrated in the correlation plot, into a set of linearly uncorrelated variables called principal components. PCA successfully reduced the dimensionality of the dataset, capturing the essential information in the first four principal components, which collectively account for over 90% of the variance.
+Second, we performed a Principal Component Analysis (PCA). This process transforms many linearly correlated variables, as was demonstrated in the correlation plot, into a set of linearly uncorrelated variables called principal components. PCA successfully reduced the dimensionality of the dataset, capturing the essential information in the first four principal components, which collectively account for over 90% of the variance.
 
 To delve deeper into the interpretation of these components, we examined the top three contributing variables for each component, as presented in Table XX. This excluded several values for ease of explanation. This focused analysis allows us to highlight key factors driving the variance in the data. Notably, the number of children under 5 is the most influential variable in Component 1, while the year of immigration takes precedence in both Components 2 and 3. Component 4 is primarily driven by age. These findings emphasize the significance of specific variables in shaping the overall structure of the data, shedding light on potential patterns and relationships which we dive deeper into using supervised machine learning below. The plots included visualize the components across two variables of interest in our analysis: health insurance coverage type and citizenship status.
 
 #### Part B: Predicting Immigrant Likelihood for Health Coverage: Supervised Machine Learning using data from the CPS
 
-Research has shown that immigrants in America face many challenges that impact their social life, mental state, and even physical health.  Many immigrants struggle to make a living that provides their family with a adequate income and health insurance. However, as an immigrants time in America increases, some of these factors are shown to improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. We decided to use year of immigration as its importance was uncovered via our unsupervised machine learning analysis. The variable "hhincome" is predicted in the model below.
+Research has shown that immigrants in America face many challenges that impact their social life, mental state, and even physical health. Many immigrants struggle to make a living that provides their family with a adequate income and health insurance. However, as an immigrants time in America increases, some of these factors are shown to improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. We decided to use year of immigration as its importance was uncovered via our unsupervised machine learning analysis. The variable "hhincome" is predicted in the model below.
 
 ```{r, eval = FALSE}
 
@@ -658,7 +752,7 @@ cps_hhincome_viz <- cps %>%
 print(cps_hhincome_viz)
 ```
 
-The plot above shows no specific trend, revealing that increased time in the U.S. does not necessarily lead to increased income for immigrants. However, the largest concentration of 0 dollar incomes are shown beyond 2020. This shows that many immigrants who immigrated to the U.S. in the last 3 years are currently earning $0 in household income. 
+The plot above shows no specific trend, revealing that increased time in the U.S. does not necessarily lead to increased income for immigrants. However, the largest concentration of 0 dollar incomes are shown beyond 2020. This shows that many immigrants who immigrated to the U.S. in the last 3 years are currently earning \$0 in household income.
 
 ```{r, eval = FALSE}
 #Remove negative household income values for the linear regression model. Also, remove any NAs that may impact the recipe.
@@ -730,7 +824,6 @@ lm_cv <- lm_wf %>%
 
 ```
 
-
 ```{r, eval = FALSE}
 # select the best model based on the "rmse" metric
 lm_best <- lm_cv %>%
@@ -777,40 +870,62 @@ predictions <-
 
 Allie to write analysis of supervised machine learning model
 
-#### Part 3: Understanding Immigrant Access to Health Centers
+#### Part C: Understanding Immigrant Access to Health Centers
 
 ##### Descriptive Statistics for Health Centers
 
-```{r, eval = FALSE}
+Based on high level descriptive analysis, we found that the average US county has an average of 5 community health centers (or a median of 2). Additionally, as can be seen with the density plot, there are only a small concentration of counties that have more than 50 health centers, and an even lower group that have more than 200.
+
+```{r}
 
 #Average number of federally qualified health centers in the US in each county
-acs_joined %>% 
-  summarize(mean(total_centers)) %>% 
-  print()
+acs_joined_nonspac %>% 
+  summarize("Average Centers" = mean(total_centers)) %>% 
+knitr::kable(digits = 2)
 
 #Median number of federally qualified health centers in the US in each counties
-acs_joined %>% 
-  summarise(median(total_centers)) %>% 
-  print()
+acs_joined_nonspac %>% 
+  summarise("Median Centers" = median(total_centers)) %>% 
+knitr::kable(digits = 2)
+
+#density plot of number of counties at each level of immigrant population
+centers_density <- 
+acs_joined_nonspac %>% 
+  select(total_centers,geoid.x) %>% 
+  group_by(total_centers) %>% 
+    count() 
+
+ggplot(data = centers_density, aes(x = total_centers))+
+  geom_density(alpha = .3, color = "purple") +
+  labs(title = "Density of Counties with Numbers of Health Centers",
+       x = "Number of Health Centers",
+       y = "Density of Counties") +
+  theme(axis.title.x = element_text(size = 14)) +
+  theme_minimal()
+  
+```
+
+Analysis shows that the counties with the greatest amount of health centers contain highly-populated metropolitan areas: Los Angeles, San Francisco, Miami, Chicago, and San Diego.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
 
 #counties with the most community health centers
-acs_joined %>% 
+acs_joined_nonspac %>% 
   select(name,total_centers) %>% 
   top_n(5, wt = total_centers) %>% 
-  print
-
-#counties with the least community health centers
-acs_joined %>% 
-  select(name,total_centers,born_abroad) %>% 
-  arrange(desc(total_centers)) %>% 
-  tail(5) %>% 
-  print()
+  knitr::kable(digits = 3)
 
 ```
 
-***Scatter Plot of Relationships Between Immigrant Population and Health Center Access***
+**Visualizating the Relationship between Immigrant Population and Health Center Access**
 
-```{r, eval = FALSE}
+Based on exploratory analysis, we can see that the number of health centers, understandably, seems to be higher in highly populated areas. Larger urban areas tended to account for outlier counties that has 300+ health centers. If only looking at health center access by the sum of health centers in a county, it could lead to misleading conclusions from the data. For example, just because Los Angeles County has 600+ community health centers, does not necessarily mean that the average immigrant has access to more health centers than another individual in a lower-population county with only 6 health centers.
+
+In order to truly assess access to health centers, we needed to create a variable that could be used as a relative measure between counties. For this reason we decided to create a new variable that calculates health centers per capita. This variable was called "centers_per_capita". Lower values would indicate a lower access to health centers, and can be used to compare one county to another, irrespective of size.
+
+We then wanted to investigate how the center_per_capita changed as percentage of a county that identifies as an immigrant increases. We hypothesized that there would be a negative correlation between these variables. In order to capture this, we created a scatter plot, with a simple bivariate linear regression run across the two variables. Given that both variables are ratio data and are not normally distributed, and both were on different scales (all centers_capita were extremely small, under 1, and all percentage immigrant values were between 0-100), we decided to take the log of both values. After some experimentation, we found that this most clearly displayed a potential relationship between the two variables.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
 
 # log variables for data visualization purposes
 
@@ -824,7 +939,9 @@ acs_joined_nonspac_log %>%
   ggplot(aes(x = log_born_abroad, y = centers_per_capita)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm", se = TRUE) +
-  labs(title = "Health Center Access Decreases as the Proportion of Immigrant Population Increases")+
+  labs(title = "Health center access decreases as proportion of immigrants increases",
+       y = "Log of Centers Per Capita",
+       x = "Log of Percent Born Abroad")+
   theme_minimal() 
 
 
@@ -834,31 +951,33 @@ acs_joined_nonspac_log %>%
   ggplot(aes(x = log_born_abroad, y = centers_per_capita, fill = top_nativity, color = top_nativity)) +
   geom_point(alpha = 0.25) +
   geom_smooth(method = "lm", se = TRUE) +
-  labs(title = "Health Center Access Decreases as the Proportion of Immigrant Population Increases")+
+  labs(title = "Health center disparities exist across region of nativity",
+        y = "Log of Centers Per Capita",
+       x = "Log of Percent Born Abroad")+
   theme_minimal() 
 
 ```
 
-\
-5. Discussion of Results: This section should include the interpretation of your results.\
-Please discuss what your results suggest about the answer to your research question\
-of interest. Please also discuss any limitations of your analysis and areas for potential\
-future research.
+As can be seen in the visuals above, there does appear to be a possible negative correlation between the health centers per capita and the percent of a county that are immigrants. In other words, it would appear that the higher proportion that a county identifies as immigrants, the lower access they would have to health centers.
 
-Alicia paragraph of key takeaways from analysis
+Disparities can also be seen when looking at particular subpopulations of immigrants, such as those of Asian, Latin, or African heritage. Based on the data provided, counties where the majority of immigrants are from Asian may have lower access to health centers than counties where the majority of immigrants are from Latin America or Africa.
 
-Olivia paragraph of key takeaways from analysis
+However, There should be some caution in interpreting the results above. First, additional analysis should be conducted to assess the statistical significance of the relationship between these two variables, as well as the differences between subdemographics (for example, the margin of error for those of African nativity is large and limited). Additionally, more advanced analysis should be conducted that includes other variables that could influence either the dependent or independent variable. For example, health center access could be influenced by more than just the population of immigrants: such as public funding towards health, health insurance coverage, etc.\
 
-Paragraph of limitations and areas for potential research (changes over time) Limitations:
+## 5. Discussion of Results: This section should include the interpretation of your results.
 
-While the data used in our analysis paints an accurate picture of immigrants in America as of 2022, by limiting our data to just one year, we are not able to see change overtime or any prior year data. It is likely that during large economic downturns, such as the 2007 financial crisis or COVID-19, immigrants in America experiences even worse conditions that they do now.
+*Please discuss what your results suggest about the answer to your research question of interest. Please also discuss any limitations of your analysis and areas for potential future research.*
 
-In our analysis we removed all NAs as a way to simplify the data and enable analysis. However, it is likely that many of the NAs in the dataset were not random. Many immigrants may be weary of sharing their income levels or health care status with a surveyor. By leaving out these observations, we are likely biasing our data and drawing inaccurate conclusions about the immigrant population.
+### Discussion of Results
 
--Lack of survey weights means can't extrapolate
+At a high level, it would appear that immigrant populations experience disparities in health insurance coverage, health center access, and in overall health status. Additionally, it is important to note that immigrants are not a monolith - individuals come from a variety of socioeconomic and cultural backgrounds, access different economic opportunities and documentation status', and experience changes in their health and economic status based on the amount of years they have lived in the Unites States.
 
--could do analysis overtime
+This came across in our research: For example, the analysis of health center access demonstrated potential disparities between the access that different sub populations of immigrants might have based on their region of origin. **ALLIE & OLIVIA, I thought that you could mention some of your findings from your analysis here.**
 
--removing NAs - ethical implications
+### Limitations and Areas for Future Research
 
-Paragraph of policy recommendations
+While the data used in our analysis paints an accurate picture of immigrants in America as of 2022, by limiting our data to just one year, we are not able to see change overtime or any prior year data. It is likely that during large economic downturns, such as the 2007 financial crisis or COVID-19, immigrants in America experiences even worse conditions that they do now. Additional longitudinal studies should be considered.
+
+In our analysis we removed all null values as a way to simplify the data and enable analysis. However, it is likely that many of the null values in the dataset were not random. Many immigrants may be weary of sharing their income levels or health care status with a surveyor. By leaving out these observations, we are likely biasing our data and drawing inaccurate conclusions about the immigrant population.
+
+As mentioned throughout the document, we would recommend that more advanced analysis be conducted to understand health center access for different populations. This could take the form of granular person-specific data to understand the distance that an individual has to travel to a health center or analyze at a census-tract level. Additionally, there are many variables that might influence the amount of community health centers that are present within a geography. Additional madvanced statistical analysis should be conducted to understand how someone's identification as am immigrant might influence the access they have to health centers.
