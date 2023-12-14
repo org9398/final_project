@@ -31,7 +31,7 @@ Because of the high rate of uninsurance and poverty in these communities, commu
 
 Because of these well-documented disparities, it is important for new research and analysis to provide a clearer picture of how these disparities currently materialize in communities to inform policy making.
 
-In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences  between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were  categorized as immigrants who had been in the U.S. for less than a decade, while established immigrantswere categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
+In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade, while established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
 
 Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
 
@@ -435,7 +435,7 @@ print(geo_missing_counts[geo_missing_counts > 0])
 
 As can be observed, given the quality of data sets available, there was not an immense level of cleaning that needed to be conducted.
 
-In regards to the data wrangling for these datasets, ultimate goal was to create a completed, merged data frame that compiles demographic features of each county by the ACS, an aggregate number of health centers in each county from the HRSA, and the corresponding geospacial fields needed to visualize and analyze data at the county level. The following code displays the steps that were taken to do this:
+In regards to the data wrangling for these datasets, the ultimate goal was to create a completed, merged data frame that compiles demographic features of each county by the ACS, an aggregate number of health centers in each county from the HRSA, and the corresponding geospacial fields needed to visualize and analyze data at the county level. The following code displays the steps that were taken to do this:
 
 **Step 1: Converting HRSA Dataframe to Spacial Dataframe**
 
@@ -534,7 +534,25 @@ acs_joined_nonspac   <- st_drop_geometry(acs_joined)
 
 ### General Trends within Immigrant Populations
 
-Ed to write about exploratory analysis/data viz
+The below analysis begins with an overarching look at the immigrant landscape in the United States, from its geographic distribution at the county level to median income levels and prevelance of health insurance. It then proceeds to unsupervised machine learning followed by supervised machine learning in order to predict the likelihood of immigrant health coverage.
+
+The below table notes the total population (broken out by immigrants and non-immigrants), median income, an health insurance prevelance by state.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+
+# split out states in acs_joined_nonspac
+
+acs_by_state <- acs_joined_nonspac %>% 
+  separate(name, c(NA, "State"), ",", convert = TRUE)
+
+# table of all 50 states noting their U.S.-born and born abroad populations, median incomes, and prevelance of having health insurance
+
+acs_by_state %>%
+  group_by(State, drop(State)) %>%
+  summarise(State, sum(total_pop), mean(born_us), mean(born_pr), mean(born_abroad), mean(median_income), health_insurance) %>%
+  knitr::kable(digits = 2)
+
+```
 
 #### Geographic Distribution of Immigrant Communities
 
@@ -571,7 +589,7 @@ acs_joined_nonspac %>%
 
 ```
 
-Additionally, the map of the United States shows similar,y that urban areas such as Los Angeles/San Diego, Seattle, Chicago, New York, and Miami are comprised of a high proportion of immigrants. This is denoted by the darker shading below. It should be noted that this map isn't representing the actual population of immigrants living within the respective counties (it could be a case like the Alaska county example above) and may also be deciptive given the size of US counties. Counties on the Eastern half of the country tend to have smaller areas, and therefore the ability to deciper a level of shading is more difficult.
+Additionally, the map of the United States shows similarly that urban areas such as Los Angeles/San Diego, Seattle, Chicago, New York, and Miami are comprised of a high proportion of immigrants. This is denoted by the darker shading below. It should be noted that this map isn't representing the actual population of immigrants living within the respective counties (it could be a case like the Alaska county example above) and may also be deciptive given the size of US counties. Counties on the Eastern half of the country tend to have smaller areas, and therefore the ability to deciper a level of shading is more difficult.
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE}
 
@@ -919,9 +937,9 @@ acs_joined_nonspac %>%
 
 **Visualizating the Relationship between Immigrant Population and Health Center Access**
 
-Based on exploratory analysis, we can see that the number of health centers, understandably, seems to be higher in highly populated areas. Larger urban areas tended to account for outlier counties that has 300+ health centers. If only looking at health center access by the sum of health centers in a county, it could lead to misleading conclusions from the data. For example, just because Los Angeles County has 600+ community health centers, does not necessarily mean that the average immigrant has access to more health centers than another individual in a lower-population county with only 6 health centers.
+Based on exploratory analysis, we can see that the number of health centers, understandably, seems to be higher in highly populated areas. Larger urban areas tended to account for outlier counties that had 300+ health centers. If only looking at health center access by the sum of health centers in a county, it could lead to misleading conclusions from the data. For example, just because Los Angeles County has 600+ community health centers, does not necessarily mean that the average immigrant has access to more health centers than another individual in a lower-population county with only 6 health centers.
 
-In order to truly assess access to health centers, we needed to create a variable that could be used as a relative measure between counties. For this reason we decided to create a new variable that calculates health centers per capita. This variable was called "centers_per_capita". Lower values would indicate a lower access to health centers, and can be used to compare one county to another, irrespective of size.
+In order to truly assess access to health centers, we needed to create a variable that could be used as a relative measure between counties. For this we decided to create a new variable that calculates health centers per capita. This variable was called "centers_per_capita". Lower values would indicate a lower access to health centers, and can be used to compare one county to another, irrespective of size.
 
 We then wanted to investigate how the center_per_capita changed as percentage of a county that identifies as an immigrant increases. We hypothesized that there would be a negative correlation between these variables. In order to capture this, we created a scatter plot, with a simple bivariate linear regression run across the two variables. Given that both variables are ratio data and are not normally distributed, and both were on different scales (all centers_capita were extremely small, under 1, and all percentage immigrant values were between 0-100), we decided to take the log of both values. After some experimentation, we found that this most clearly displayed a potential relationship between the two variables.
 
