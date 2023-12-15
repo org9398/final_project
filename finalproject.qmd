@@ -532,9 +532,9 @@ acs_joined_nonspac   <- st_drop_geometry(acs_joined)
 
 The below analysis begins with an overarching look at the immigrant landscape in the United States, from its geographic distribution at the county level to median income levels and prevalence of health insurance. It then proceeds to unsupervised machine learning followed by supervised machine learning in order to predict the likelihood of immigrant health coverage.
 
-The below table notes the total population (broken out by immigrants and non-immigrants), median income, an health insurance prevalence by state.
+The two maps below denote the employment rate and median income by counties in the United States, which, when considered in conjunction with further analysis on the immigrant community, can visually highlight certain counties with disparities for immigrant-heavy populations.
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
 
 # split out states in acs_joined_nonspac
 
@@ -543,11 +543,30 @@ acs_by_state <- acs_joined_nonspac %>%
 
 # table of all 50 states noting their U.S.-born and born abroad populations, median incomes, and prevelance of having health insurance
 
-acs_by_state %>%
-  distinct(State, .keep_all = TRUE) %>%
-  group_by(State) %>%
-  summarise(State, sum(total_pop), mean(born_us), mean(born_pr), mean(born_abroad), mean(median_income), sum(health_insurance)) %>%
-  knitr::kable(digits = 2)
+# acs_by_state %>%
+  # group_by(State) %>%
+  # summarise(State, sum(total_pop), mean(born_us), mean(born_pr), mean(born_abroad), mean(median_income), health_insurance) %>%
+  # knitr::kable(digits = 2)
+
+#US Map
+  #crop map to include only the continental US
+  us_cropped <- st_crop(acs_joined, xmin = -125, xmax = -50, ymin = 50, ymax = 20)
+  
+  #map of employment rate
+  ggplot() + 
+    geom_sf(data = us_cropped, aes(fill = employed), alpha = 1) +
+    scale_fill_gradient(low = "white",high ="darkgreen") +
+    labs(title = "Employment Rate of Counties", 
+         fill = "Employment Rate") +
+    theme_void()
+
+  #map of median income
+  ggplot() + 
+    geom_sf(data = us_cropped, aes(fill = median_income), alpha = 1) +
+    scale_fill_gradient(low = "white",high ="blue") +
+    labs(title = "Median Income of Counties", 
+         fill = "Median Income") +
+    theme_void()
 
 ```
 
