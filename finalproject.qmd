@@ -9,27 +9,19 @@ format:
     embed-resources: true
 ---
 
-Questioning to include the below since health insurance is now only a small component of the analysis:
-
-Two factors that contribute to physical well being is access to health insurance and access to health centers. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
-
-Often times, healthcare status is associated with one's socioeconomic status. In the United States, healthcare is typically provided through employers. Even through an employer, monthly health insurance payments are costly and can be burdensome to many. However, Obtaining healthcare independently is much more challenging and costly. For these reasons, income and healthcare status are closely related. High income earners are much more likely to be insured than those living at or below the poverty line. Families without health insurance are at risk of large medical bills, in the event of an emergency, that could potentially turn into debt overtime. This vicious cycle makes it almost impossible to pay back any medical bills while getting out of poverty and getting covered by insurance.
-
-Given the recognized importance of health care, it has received consistent attention from both public and private agencies. That attention gained additional relevance after the crucial role the health care system played throughout the COVID-19 pandemic.
-
 # Final Project
 
 ## The Importance of Health Care Access and Economic Stability for Immigrant Communities in the United States
 
 Immigration is deeply embedded into the history of the United States. For centuries, the arrival of individuals born abroad has brought new ideas, cultures, and economic/social benefits to the nation. Despite this, there is evidence that many of these individuals experience additional barriers to accessing the economic and social opportunities that exist, and experience high economic and health disparities as compared to those born in the United States.
 
-Research delving into the historical health and economic disparities that face immigrant communities has focused on limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011).
+Research delving into the historical health and economic disparities that face immigrant communities has focused on limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Two factors that contribute to physical well being is access to health insurance and access to health centers. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
 
-Additionally, the US immigrant population is not monolithic, and it is important to explore factors that can influence an individuals health or economic status such as documentation status or how many years they have spent in the US. The important of these factors has been illustrated by prior research: A a May 2022 study by the Guttmacher Institute, used the 2019 American Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist disparities by immigration status in access to health insurance, as well as primary and reproductive health care. In another study that explored health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade, while established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
+Additionally, the US immigrant population is not monolithic, and it is important to explore factors that can influence an individuals health or economic status such as documentation status or how many years they have spent in the US. The important of these factors has been illustrated by prior research: A May 2022 study by the Guttmacher Institute, used the 2019 American Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist disparities by immigration status in access to health insurance, as well as primary and reproductive health care. In another study that explored health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade, while established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
 
 **Research Question**
 
-Through exploratory data analysis, supervised and unsupervised machine learning, and geospacial analysis, this research project strives to explore factors that contribute to the health and economic status of immigrant communities. Specifically, we sought to understand health care access in immigrant communities, understanding how the year of arrival influences ones income levels, and exploring differentiating factors that could influence health/economic status outside of only being born in the United States. With an increased understanding of these factors, policy makers are more effectively address disparities that exist, as well as identify protective factors that support immigrants thriving within their communities.
+Through exploratory data analysis, supervised and unsupervised machine learning, and geospatial analysis, this research project strives to explore factors that contribute to the health and economic status of immigrant communities. Specifically, we sought to understand health care access in immigrant communities, understanding how the year of arrival influences ones income levels, and exploring differentiating factors that could influence health/economic status outside of only being born in the United States. With an increased understanding of these factors, policy makers are more effectively address disparities that exist, as well as identify protective factors that support immigrants thriving within their communities.
 
 ***Sources***
 
@@ -223,7 +215,7 @@ acs_2022 <-
 
 ### Health Resources and Services Administration (HRSA) Community Health Center Data
 
-In order to understand the access to health care through access to community health centers, we are utilizing US Health and Services Administration comprehensive listing of federally-qualified community health centers, or unregistered equivalent organizations. The dataset captures data at the "center"-level, where each observation represents a different health center. It is updated on an annual basis, and our team utilized the most recently available information. The dataset includes variables such as address, congressional representative, and latitude and longitude for each center. 
+In order to understand the access to health care through access to community health centers, we are utilizing US Health and Services Administration comprehensive listing of federally-qualified community health centers, or unregistered equivalent organizations. The dataset captures data at the "center"-level, where each observation represents a different health center. It is updated on an annual basis, and our team utilized the most recently available information. The dataset includes variables such as address, congressional representative, and latitude and longitude for each center.
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -534,7 +526,7 @@ The below analysis begins with an overarching look at the immigrant landscape in
 
 The two maps below denote the employment rate and median income by counties in the United States, which, when considered in conjunction with further analysis on the immigrant community, can visually highlight certain counties with disparities for immigrant-heavy populations.
 
-```{r, echo = TRUE, warning = FALSE, message = FALSE}
+```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
 # split out states in acs_joined_nonspac
 
@@ -822,7 +814,7 @@ To combine both PCA and K-Means analysis, we created a visualization depicting t
 
 #### Part B: Predicting Immigrant Incomes Levels: Supervised Machine Learning using data from the CPS
 
-Research has demonstrated that immigrant communities experience income disparities as compared with individuals were born in the US. Our unsupervised machine learning model uncovered that year of immigration played a distinguishing factor between immigrant clusters. Additionally, as previously referenced, research on the relationship amount of time that an individual has spent in the United States and the improvement economic and health disparities is consistent with this assessment as well. Through a supervised machine learning model, we sought to explore this factor more, and utilize is as a primary predictor of household income ("hhincome"). 
+Research has demonstrated that immigrant communities experience income disparities as compared with individuals were born in the US. Our unsupervised machine learning model uncovered that year of immigration played a distinguishing factor between immigrant clusters. Additionally, as previously referenced, research on the relationship amount of time that an individual has spent in the United States and the improvement economic and health disparities is consistent with this assessment as well. Through a supervised machine learning model, we sought to explore this factor more, and utilize is as a primary predictor of household income ("hhincome").
 
 ```{r, eval = FALSE}
 
@@ -1074,6 +1066,8 @@ However, There should be some caution in interpreting the results above. First, 
 At a high level, it would appear that immigrant populations experience disparities in health insurance coverage, health center access, and in overall health status. Additionally, it is important to note that immigrants are not a monolith - individuals come from a variety of socioeconomic and cultural backgrounds, access different economic opportunities and documentation status', and experience changes in their health and economic status based on the amount of years they have lived in the Unites States.
 
 This came across in our research: For example, the analysis of health center access demonstrated potential disparities between the access that different sub populations of immigrants might have based on their region of origin.
+
+In our unsupervised machine learning analysis, we found that the number of children under 5, the year of immigration, and age contribute to our component analysis. Additionally, cluster analysis showed that year of immigration, citizenship status, and nativity contributed strongly to defining the characteristics of the clusters we analyzed. These findings emphasize the significance of specific variables in shaping the overall structure of the data, shedding light on potential patterns and relationships which we dive deeper into using supervised machine learning below.
 
 **ALLIE & OLIVIA, I thought that you could mention some of your findings from your analysis here.**
 
