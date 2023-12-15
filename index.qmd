@@ -15,7 +15,7 @@ format:
 
 Immigration is deeply embedded into the history of the United States. For centuries, the arrival of individuals born abroad has brought new ideas, cultures, and economic/social benefits to the nation. Despite this, there is evidence that many of these individuals experience additional barriers to accessing the economic and social opportunities that exist, and experience high economic and health disparities as compared to those born in the United States.
 
-Research delving into the historical health and economic disparities that face immigrant communities has focused on limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Two factors that contribute to physical well being is access to health insurance and access to health centers. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
+Research delving into the historical health and economic disparities that face immigrant communities has focused on limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011). Two factors that contribute to physical well being is access to health insurance and access to health centers. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources).
 
 Additionally, the US immigrant population is not monolithic, and it is important to explore factors that can influence an individuals health or economic status such as documentation status or how many years they have spent in the US. The important of these factors has been illustrated by prior research: A May 2022 study by the Guttmacher Institute, used the 2019 American Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist disparities by immigration status in access to health insurance, as well as primary and reproductive health care. In another study that explored health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade, while established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
 
@@ -23,11 +23,15 @@ Additionally, the US immigrant population is not monolithic, and it is important
 
 Through exploratory data analysis, supervised and unsupervised machine learning, and geospatial analysis, this research project strives to explore factors that contribute to the health and economic status of immigrant communities. Specifically, we sought to understand health care access in immigrant communities, understanding how the year of arrival influences ones income levels, and exploring differentiating factors that could influence health/economic status outside of only being born in the United States. With an increased understanding of these factors, policy makers are more effectively address disparities that exist, as well as identify protective factors that support immigrants thriving within their communities.
 
-***Sources***
+***Bibliography***
+
+"American Community Survey." U.S. Census Bureau, [2022]. Census Bureau, U.S. Department of Commerce.
 
 Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
 
 Derose, K. P., Escarce, J. J., & Lurie, N. (2007). Immigrants and health care: sources of vulnerability. *Health affairs*, *26*(5), 1258-1268.
+
+Flood, Sarah, Miriam King, Renae Rodgers, Steven Ruggles, J. Robert Warren, Daniel Backman, Annie Chen, Grace Cooper, Stephanie Richards, Megan Schouweiler, and Michael Westberry. IPUMS CPS: Version 11.0 [dataset]. Minneapolis, MN: IPUMS, 2023. https://doi.org/10.18128/D030.V11.0
 
 Fuentes, L., Desai, S., and Dawson, R.. (2022). "New Analyses on US Immigrant Health Care Access Underscore the Need to Eliminate Discriminatory Policies." Www.guttmacher.org, May. https://doi.org/10.1363/2022.33551.
 
@@ -38,6 +42,12 @@ Pourat, N., Wallace, S. P., Hadler, M. W., & Ponce, N. (2014). Assessing health 
 Schumacher, S., and Presiado, M. (2023). "Health and Health Care Experiences of Immigrants: The 2023 KFF/LA Times Survey of Immigrants." KFF. September 17, 2023. https://www.kff.org/racial-equity-and-health-policy/issue-brief/health-and-health-care-experiences-of-immigrants-the-2023-kff-la-times-survey-of-immigrants/.
 
 Suro, R., Wilson, J. H., & Singer, A. (2011). Immigration and poverty in America's suburbs. *Metropolitan Opportunity Series*, 1-21.
+
+U.S. Census Bureau. (2022). 2017-2022 American Community Survey 5-year Public Use County Samples
+
+US Health Resources and Service Administration (2023). 2023 Federally Qualified Health Centers and Look-Alikes Data.
+
+US Census Bureau (2023). 2007-2023 TIGER/Line Shapefiles
 
 ## 2. Data Sources
 
@@ -258,8 +268,6 @@ shapefile <- sf::st_read(file.path(destination_folder, "tl_2022_us_county.shp"))
 
 ## 3. Data Wrangling and Exploratory Analysis
 
-*This section should include your code to perform any data cleaning and new variable creation. You should also thoroughly explore your data, including assessing the presence of outliers/unexpected values and identifying and appropriately addressing missingness in any key variables.*
-
 #### CPS Data Wrangling and Exploratory Analysis
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE}
@@ -345,7 +353,7 @@ print(missing_counts[missing_counts > 0])
 
 ```
 
-#### ACS, HRA, and Census Data Wrangling
+#### ACS, HRSA, and Census Data Wrangling
 
 **Assessing Missingness:**
 
@@ -379,8 +387,6 @@ print(hrsa_missing_counts[hrsa_missing_counts > 0])
     #sum(is.na(hrsa_health_centers$geocoding_artifact_address_primary_y_coordinate))
     
    # y_cord_missing <- subset(hrsa_health_centers, is.na(geocoding_artifact_address_primary_y_coordinate))
-
-#there are 25 values missing out of 17192. It isn't isolated to only one state and other data is missing. Will remove those rows
     
 hrsa_health_centers <- 
   subset(hrsa_health_centers, !is.na(geocoding_artifact_address_primary_y_coordinate)) #y and x coordinates are missing from same observations, so can just eliminate based on one condition
@@ -513,8 +519,6 @@ acs_joined_nonspac   <- st_drop_geometry(acs_joined)
 ```
 
 ## 4. Data Analysis
-
-*Data Analysis: This section should include the code to conduct analysis to answer your question of interest. It should include writing explaining why the tools you selected are a good fit for the research question and a justification of key analytic decisions. If you are using machine learning methods, this section should include model evaluation using the methods discussed in class.*
 
 ### General Trends within Immigrant Populations
 
@@ -1055,8 +1059,6 @@ Disparities can also be seen when looking at particular subpopulations of immigr
 However, There should be some caution in interpreting the results above. First, additional analysis should be conducted to assess the statistical significance of the relationship between these two variables, as well as the differences between subdemographics (for example, the margin of error for those of African nativity is large and limited). Additionally, more advanced analysis should be conducted that includes other variables that could influence either the dependent or independent variable. For example, health center access could be influenced by more than just the population of immigrants: such as public funding towards health, health insurance coverage, etc.\
 
 ## 5. Discussion of Results: This section should include the interpretation of your results.
-
-*Please discuss what your results suggest about the answer to your research question of interest. Please also discuss any limitations of your analysis and areas for potential future research.*
 
 ### Discussion of Results
 
