@@ -824,7 +824,7 @@ cps_hhincome_viz <- cps %>%
   filter(yrimmig > 1980) %>%
   group_by(yrimmig, hhincome) %>%
   summarise(frequency = n()) %>%
-  ggplot(aes(x = yrimmig, y = hhincome, size = frequency)) + scale_x_continuous(breaks = seq(1980, 2025, by = 5)) + geom_point(alpha = 0.7) + theme_minimal() + labs(
+  ggplot(aes(x = yrimmig, y = hhincome, size = frequency)) + scale_x_continuous(breaks = seq(1980, 2025, by = 5)) + geom_point(alpha = 0.5,color = "purple") + theme_minimal() + labs(
 
     title = "Years Since Immigration's Impact on Household Income ",
 
@@ -959,7 +959,7 @@ predictions <-
 
 ```
 
-The linear regression model above has an RMSE of 0.000438. This error metric represents how often the model strays from the actual values in the CPS dataset when predicting household income. This small RSME indicates that the model is a appropriate fit for the data. This shows that the household income of an immigrant based on their year of immigration is generally linear, which confirms much of the literature on the topic. This serves as additional evidence for policymakers build policy around immigrants, specifically those who are not yet citizens and more recently immigrated to the U.S.
+The linear regression model above has an RMSE of 0.000438. This error metric represents how often the model strays from the actual values in the CPS dataset when predicting household income. This small RSME indicates that the model is a appropriate fit for the data. This shows that the household income of an immigrant based on their year of immigration is generally linear, which confirms much of the literature on the topic. 
 
 #### Part C: Understanding Immigrant Access to Health Centers
 
@@ -1069,7 +1069,8 @@ This came across in our research: For example, the analysis of health center acc
 
 In our unsupervised machine learning analysis, we found that the number of children under 5, the year of immigration, and age contribute to our component analysis. Additionally, cluster analysis showed that year of immigration, citizenship status, and nativity contributed strongly to defining the characteristics of the clusters we analyzed. These findings emphasize the significance of specific variables in shaping the overall structure of the data, shedding light on potential patterns and relationships which we dive deeper into using supervised machine learning below.
 
-**ALLIE & OLIVIA, I thought that you could mention some of your findings from your analysis here.**
+In our supervised machine learning analysis, we saw that the relationship between year of immigration and household income is linear.This serves as additional evidence for policymakers to build policy that is not "one size fits all" for immigrants in the United States. The experiences of an immigrants in the U.S.are not all the same and vary vastly based on how long the individual has been in the country. Policies should be focused on ensuring more recent immigrants are provided the tools they need to be successful.
+
 
 ### Limitations and Areas for Future Research
 
