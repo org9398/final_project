@@ -9,29 +9,29 @@ format:
     embed-resources: true
 ---
 
+Questioning to include the below since health insurance is now only a small component of the analysis:
+
+Two factors that contribute to physical well being is access to health insurance and access to health centers. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
+
+Often times, healthcare status is associated with one's socioeconomic status. In the United States, healthcare is typically provided through employers. Even through an employer, monthly health insurance payments are costly and can be burdensome to many. However, Obtaining healthcare independently is much more challenging and costly. For these reasons, income and healthcare status are closely related. High income earners are much more likely to be insured than those living at or below the poverty line. Families without health insurance are at risk of large medical bills, in the event of an emergency, that could potentially turn into debt overtime. This vicious cycle makes it almost impossible to pay back any medical bills while getting out of poverty and getting covered by insurance.
+
+Given the recognized importance of health care, it has received consistent attention from both public and private agencies. That attention gained additional relevance after the crucial role the health care system played throughout the COVID-19 pandemic.
+
 # Final Project
 
 ## The Importance of Health Care Access and Economic Stability for Immigrant Communities in the United States
 
-Meaningful health care coverage is critical to living a productive, secure and healthy life. Health insurance facilitates access to care and is associated with lower death rates, better health outcomes, and improved productivity. U.S. residents obtain health coverage from a variety of private and public sources, such as through their employers or direct purchase on the individual market (private sources), as well as through the Medicare, Medicaid, or Veterans Affairs programs (public sources) (American Hospital Association).
-
-Often times, healthcare status is associated with one's socioeconomic status. In the United States, healthcare is typically provided through employers. Even through an employer, monthly health insurance payments are costly and can be burdensome to many. However, Obtaining healthcare independently is much more challenging and costly. For these reasons, income and healthcare status are closely related. High income earners are much more likely to be insured than those living at or below the poverty line. Families without health insurance are at risk of large medical bills, in the event of an emergency, that could potentially turn into debt overtime. This vicious cycle makes it almost impossible to pay back any medical bills while getting out of poverty and getting covered by insurance.
-
-**Research Question**
-
-Through data analysis, this research project strives to explore health care enrollment by groups in order to articulate how immigration can impact health and economic status in the United States. By understanding the depth and reach of disparities in these vulnerable communities, decision makers can target policies to ensure efficiency and success in improving health and economic outcomes.
-
-**Current Literature**
-
-Given the recognized importance of health care, it has received consistent attention from both public and private agencies. That attention gained additional relevance after the crucial role the health care system played throughout the COVID-19 pandemic.
+Immigration is deeply embedded into the history of the United States. For centuries, the arrival of individuals born abroad has brought new ideas, cultures, and economic/social benefits to the nation. Despite this, there is evidence that many of these individuals experience additional barriers to accessing the economic and social opportunities that exist, and experience high economic and health disparities as compared to those born in the United States.
 
 Research delving into the historical health and economic disparities that face immigrant communities has focused on limited access to health insurance coverage and negative economic outcomes related to poverty, like food insecurity and housing instability (Chang, 2019). According to Derose et. al., immigrants "have lower rates of health insurance, use less health care, and receive lower quality of care than U.S.-born populations" (2007). "Foreign-born residents of America's suburbs experienced markedly higher poverty rates (14.1 percent) than the U.S. born (9.8 percent) in 2009," according to Suro et. al. (2011).
 
-Because of the high rate of uninsurance and poverty in these communities, community health centers are exceedingly important, as they are the largest providers of uncompensated care in the safety net and  immigrants face the lowest barriers to care at these locations (Pourat et al, 2014). More recent studies, including a May 2022 study by the Guttmacher Institute, used the 2019 American Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist disparities by immigration status in access to health insurance, as well as primary and reproductive health care.
+Additionally, the US immigrant population is not monolithic, and it is important to explore factors that can influence an individuals health or economic status such as documentation status or how many years they have spent in the US. The important of these factors has been illustrated by prior research: A a May 2022 study by the Guttmacher Institute, used the 2019 American Community Survey and the 2017−2018 National Health Interview Survey to conclude that there exist disparities by immigration status in access to health insurance, as well as primary and reproductive health care. In another study that explored health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade, while established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
 
-Because of these well-documented disparities, it is important for new research and analysis to provide a clearer picture of how these disparities currently materialize in communities to inform policy making.
+**Research Question**
 
-In an exploration of health insurance coverage of U.S. immigrants, Dr. Ku analyzed the differences between established immigrants versus recent immigrants (Ku, 2011). Recent immigrants were categorized as immigrants who had been in the U.S. for less than a decade, while established immigrants were categorized as immigrants who had been in the U.S. for over a decade. When comparing the health insurance status of these two groups, Ku found that only 44% of recent immigrants were fully covered by health insurance, where established immigrants were at 63%. These results reveal the impact time in America has on the insurance coverage of immigrants.
+Through exploratory data analysis, supervised and unsupervised machine learning, and geospacial analysis, this research project strives to explore factors that contribute to the health and economic status of immigrant communities. Specifically, we sought to understand health care access in immigrant communities, understanding how the year of arrival influences ones income levels, and exploring differentiating factors that could influence health/economic status outside of only being born in the United States. With an increased understanding of these factors, policy makers are more effectively address disparities that exist, as well as identify protective factors that support immigrants thriving within their communities.
+
+***Sources***
 
 Chang, C. D. (2019). Social determinants of health and health disparities among immigrants and their children. *Current problems in pediatric and adolescent health care*, *49*(1), 23-30.
 
@@ -102,7 +102,7 @@ set.seed(20231215)
 
 ### Current Population Survey - 2022
 
-We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis. This survey is conducted each year to capture statistical information on the population. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health insurance status. Below, we will utilize unsupervised machine learning techniques to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
+We are utilizing the Current Population Survey from 2022 as a major source of data for our analysis to explore factors that would contribute to an immigrant's income or health status. This survey is conducted each year to capture statistical information on the population. The units of measurement are individual adults. The survey contains information on immigration demographic characteristics in addition to health insurance status. Below, we will utilize unsupervised machine learning techniques to analyze the relationship between health and demographic characteristics and estimate a model, given that the survey has many correlated predictors. We will also use the data in a supervised machine learning capacity to predict health coverage status based on several demographic predictors.
 
 We used the IPUMS API to download the 2022 CPS data. We read in the data using the ipumsr package. To read in the data, an IPUMS API key is required and read in using the dotevn package.
 
@@ -145,7 +145,7 @@ cps <- read_ipums_micro(ddi)
 
 ### American Communities Survey (ACS) 2017-2022, County-Level Selected Demographics
 
-Our team utilized the 2022, 5-year survey to analyze data on select demographic features of US counties. Particular variables of interest were overall population size of counties, as well as percent of counties that were born abroad and percent of individuals that identified with various demographic groups (race, nativity, ethnicity). Additionally, we pulled data on the percent of individuals with access to health insurance, percent employed, and percent with access to internet.
+Our team utilized the 2022, 5-year survey American Communities Survey to analyze data on select demographic features of US counties. Particular variables of interest were overall population size of counties, as well as percent of counties that were born abroad and percent of individuals that identified with various demographic groups (race, nativity, ethnicity). Additionally, we pulled data on the percent of individuals with access to health insurance, percent employed, and percent with access to internet.
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -223,7 +223,7 @@ acs_2022 <-
 
 ### Health Resources and Services Administration (HRSA) Community Health Center Data
 
-In order to understand the access that particular counties of the US have to community health centers, we are utilizing data available on the US Health and Services Administration website. The dataset has a comprehensive listing of federally-qualified community health centers, or unregistered equivalent organizations. The data set, while useful, only included latitude and longitude values for each of the health centers, and therefor could not be directly joined to the American Communities Survey Dataset. There were a number of
+In order to understand the access to health care through access to community health centers, we are utilizing US Health and Services Administration comprehensive listing of federally-qualified community health centers, or unregistered equivalent organizations. The dataset captures data at the "center"-level, where each observation represents a different health center. It is updated on an annual basis, and our team utilized the most recently available information. The dataset includes variables such as address, congressional representative, and latitude and longitude for each center. 
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -237,7 +237,7 @@ hrsa_health_centers <- read_csv( paste0("https://data.hrsa.gov//DataDownload/DD_
 
 ### US Census County Shapefiles
 
-In order to set our analysis up for geospacial analysis and an assessment of community health centers by US counties, we utilized the US Census' Shapefiles available at the county level. This dataset was utilized to join together the American Communities Survey and Heath Resources and Services Administration's dataset, so that information could be aggregated at the county-level. Please note, the following section of code may need to be run twice in order for the "COUNTY" file to be downloaded and created.
+In order to set our analysis up for geospacial analysis and an assessment of community health centers by US counties, we utilized the US Census' Shapefiles available at the county level. This dataset was utilized to join together the American Communities Survey and Heath Resources and Services Administration's dataset so that information could be aggregated at the county-level. Please note, the following section of code may need to be run twice in order for the "COUNTY" file to be downloaded and created.
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -364,15 +364,13 @@ print(missing_counts[missing_counts > 0])
 
 **Assessing Missingness:**
 
-The HRSA dataset was one of the messier datasets we worked with, and it had a number of data missing across a range of variables. However, we prioritized the variables that would be of core importance to the analysis. While a number of health centers didn't have a phone number listed, for example, we didn't feel that this justified removing it all together from the dataset. This is because phone number is not a variable of interest in the analysis, and the lack of a phone number doesn't indicate that the health center does not exist. The majority of variables with missing variables were non-consequential to the analysis, and were ignored.
+-   **The HRSA dataset** was one of the messier datasets we worked with, and it had a number of data missing across a range of variables. However, we prioritized the variables that would be of core importance to the analysis. While a number of health centers didn't have a phone number listed, for example, we didn't feel that this justified removing it all together.
 
-The one exception was with missing latitude and longitude values, as this would compromise a geospacial join. There were 25 centers without a latitude and longitude values listed, and none with only one or the other. It didn't appear that values were missing in a systematic fashion, such as for a particular state. For this reason, as well as the relatively small amount of observations that were missing values in comparison to the overall dataset (25 out of over 17,000), we decided to drop these observations.
+There were 25 centers without a latitude and longitude values listed. It didn't appear that values were missing in a systematic fashion, such as for a particular state. For this reason, as well as the relatively small amount of observations that were missing values in comparison to the overall dataset (25 out of over 17,000), we decided to drop these observations.
 
-The ACS dataset is a well-prepared data source provided by the US Census Bureau and therefore required minimal cleaning. Similar to above, there were a relatively small number of missing values for the most consequential variables: born_abroad, nativity fields, and born_us.
+-   **The ACS dataset** is a well-prepared data source provided by the US Census Bureau and therefore required minimal cleaning. Similar to above, there were a relatively small number of missing values for the most consequential variables: born_abroad, nativity fields, and born_us. There were 78 places in which all born_us, born_abroad, and born_pr were missing. Upon further investigation we found that all of these variables were for Puerto Rican counties. Given that strong analysis could not be conducted for Puerto Rico for this reason, these observations were dropped. Additionally, other variables missing from this dataset were due to a "logic" built into the preparation of the data. For example, if a county reported that 100% of individuals were us born, then nativity fields were left with null values. These observations were not touched.
 
-There were 78 places in which all born_us, born_abroad, and born_pr were missing. Upon further investigation we found that all of these variables were for Puerto Rican counties. Given that strong analysis could not be conducted for Puerto Rico for this reason, these observations were dropped. Additionally, other variables missing from this dataset were due to a "logic" built into the preparation of the data. For example, if a county reported that 100% of individuals were us born, then nativity fields were left with null values. These observations were not touched.
-
-Similar to the ACS, the Census Shapefiles are extremely 'tidy' datasets. There were no missing values with the Shapefiles.
+-   Similar to the ACS, the Census Shapefiles are extremely 'tidy' datasets. There were no missing values with the Shapefiles.
 
 ```{r, eval = FALSE}
 
@@ -432,8 +430,6 @@ print(geo_missing_counts[geo_missing_counts > 0])
 
 
 ```
-
-As can be observed, given the quality of data sets available, there was not an immense level of cleaning that needed to be conducted.
 
 In regards to the data wrangling for these datasets, the ultimate goal was to create a completed, merged data frame that compiles demographic features of each county by the ACS, an aggregate number of health centers in each county from the HRSA, and the corresponding geospacial fields needed to visualize and analyze data at the county level. The following code displays the steps that were taken to do this:
 
@@ -534,9 +530,9 @@ acs_joined_nonspac   <- st_drop_geometry(acs_joined)
 
 ### General Trends within Immigrant Populations
 
-The below analysis begins with an overarching look at the immigrant landscape in the United States, from its geographic distribution at the county level to median income levels and prevelance of health insurance. It then proceeds to unsupervised machine learning followed by supervised machine learning in order to predict the likelihood of immigrant health coverage.
+The below analysis begins with an overarching look at the immigrant landscape in the United States, from its geographic distribution at the county level to median income levels and prevalence of health insurance. It then proceeds to unsupervised machine learning followed by supervised machine learning in order to predict the likelihood of immigrant health coverage.
 
-The below table notes the total population (broken out by immigrants and non-immigrants), median income, an health insurance prevalance by state.
+The below table notes the total population (broken out by immigrants and non-immigrants), median income, an health insurance prevalence by state.
 
 ```{r, echo = TRUE, warning = FALSE, message = FALSE, eval = FALSE}
 
@@ -648,7 +644,7 @@ Additionally, the map of the United States shows similarly that urban areas such
   
 ```
 
-### Exploring Health Disparities
+### Exploring Factors that Influence Economic and Health Status
 
 #### Part A: Unsupervised Machine Learning using data from the CPS
 
@@ -781,10 +777,6 @@ tidy(fit) %>%
 knitr::kable(digits = 2)
 
 
-
-
-
-
 #visualization comobing K-Means and PCA findings
 bind_cols(
 cps_pca,
@@ -797,7 +789,7 @@ theme_minimal()
 
 ```
 
-In an attempt to broadly understand our CPS dataset, we conducted unsupervised machine learning to summarize the data without a set outcome variable.
+In an attempt to broadly understand our CPS dataset, as well as explore factors that could play distinguishing factors in the health or economic outomes for immigrants, we conducted unsupervised machine learning.
 
 First, we visualized correlation among the variables in our dataset. According to the correlation plot, many of the variables are correlated. This highlights the presence of multicollinearity, which led us to perform a Principal Component Analysis on the dataset, which I explain further below. It also shows how variables related to health, income, and immigration are all closely related, further informing our analysis.
 
@@ -809,9 +801,9 @@ Third, we conducted cluster analysis using the K-Means clustering algorithm. K-M
 
 To combine both PCA and K-Means analysis, we created a visualization depicting these clusters using PC1 and PC2 to reduce the dimensionality of our analysis and for ease of understanding. The tightly packed nature of the clusters indicates they are not exceedingly different from each other.
 
-#### Part B: Predicting Immigrant Likelihood for Health Coverage: Supervised Machine Learning using data from the CPS
+#### Part B: Predicting Immigrant Incomes Levels: Supervised Machine Learning using data from the CPS
 
-Research has shown that immigrants in America face many challenges that impact their social life, mental state, and even physical health. Many immigrants struggle to make a living that provides their family with a adequate income and health insurance. However, as an immigrants time in America increases, some of these factors are shown to improve. Through a supervised machine learning model, we predict household income of immigrants based on their year of immigration. We decided to use year of immigration as its importance was uncovered via our unsupervised machine learning analysis. The variable "hhincome" is predicted in the model below.
+Research has demonstrated that immigrant communities experience income disparities as compared with individuals were born in the US. Our unsupervised machine learning model uncovered that year of immigration played a distinguishing factor between immigrant clusters. Additionally, as previously referenced, research on the relationship amount of time that an individual has spent in the United States and the improvement economic and health disparities is consistent with this assessment as well. Through a supervised machine learning model, we sought to explore this factor more, and utilize is as a primary predictor of household income ("hhincome"). 
 
 ```{r, eval = FALSE}
 
@@ -960,6 +952,8 @@ The linear regression model above has an RMSE of 0.000438. This error metric rep
 
 #### Part C: Understanding Immigrant Access to Health Centers
 
+Because of the high rate of uninsurance and poverty that has been documented within immigrant communities, community health centers are exceedingly important, as they are the largest providers of uncompensated care in the safety net and  immigrants face the lowest barriers to care at these locations (Pourat et al, 2014). We sought examine the distribution of community health centers, particularly in US counties with a high proportion of immigrant.
+
 ##### Descriptive Statistics for Health Centers
 
 Based on high level descriptive analysis, we found that the average US county has an average of 5 community health centers (or a median of 2). Additionally, as can be seen with the density plot, there are only a small concentration of counties that have more than 50 health centers, and an even lower group that have more than 200.
@@ -1060,7 +1054,9 @@ However, There should be some caution in interpreting the results above. First, 
 
 At a high level, it would appear that immigrant populations experience disparities in health insurance coverage, health center access, and in overall health status. Additionally, it is important to note that immigrants are not a monolith - individuals come from a variety of socioeconomic and cultural backgrounds, access different economic opportunities and documentation status', and experience changes in their health and economic status based on the amount of years they have lived in the Unites States.
 
-This came across in our research: For example, the analysis of health center access demonstrated potential disparities between the access that different sub populations of immigrants might have based on their region of origin. **ALLIE & OLIVIA, I thought that you could mention some of your findings from your analysis here.**
+This came across in our research: For example, the analysis of health center access demonstrated potential disparities between the access that different sub populations of immigrants might have based on their region of origin.
+
+**ALLIE & OLIVIA, I thought that you could mention some of your findings from your analysis here.**
 
 ### Limitations and Areas for Future Research
 
@@ -1068,4 +1064,4 @@ While the data used in our analysis paints an accurate picture of immigrants in 
 
 In our analysis we removed all null values as a way to simplify the data and enable analysis. However, it is likely that many of the null values in the dataset were not random. Many immigrants may be weary of sharing their income levels or health care status with a surveyor. By leaving out these observations, we are likely biasing our data and drawing inaccurate conclusions about the immigrant population.
 
-As mentioned throughout the document, we would recommend that more advanced analysis be conducted to understand health center access for different populations. This could take the form of granular person-specific data to understand the distance that an individual has to travel to a health center or analyze at a census-tract level. Additionally, there are many variables that might influence the amount of community health centers that are present within a geography. Additional madvanced statistical analysis should be conducted to understand how someone's identification as am immigrant might influence the access they have to health centers.
+As mentioned throughout the document, we would recommend that more advanced analysis be conducted to understand health center access for different populations. This could take the form of granular person-specific data to understand the distance that an individual has to travel to a health center or analyze at a census-tract level. Additionally, there are many variables that might influence the amount of community health centers that are present within a geography. Additional advanced statistical analysis should be conducted to understand how someone's identification as am immigrant might influence the access they have to health centers.
