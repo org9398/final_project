@@ -8,4 +8,4 @@ First, we utilized an unsupervised machine learning model to understand which fa
 Utilizing this finding, we explored how this variable, among others, could be predictive of an individual’s income, through a supervised machine learning model. 
 After exploring economic status of immigrants, we shifted to utilizing geospatial analysis to investigate health center access in counties with a high proportion of immigrants, given that community health centers play a critical role in delivering health services to this population. 
 Ultimately, because of our research, we recommend that policy makers understand nuance with immigrant communities that would contribute to a range of economic and health outcomes, as well as keep a particular eye towards outcomes of immigrant vs. us-born populations – given persistent disparities that exist. 
-A detailed overview of our analysis, as well as supporting code documentation can be found at this link: org9398/org9398.finalproject.github.io.  
+A detailed overview of our analysis, as well as supporting code documentation can be found at this link: (https://org9398.github.io/org9398.finalproject.github.io/).
