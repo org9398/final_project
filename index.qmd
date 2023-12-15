@@ -268,19 +268,8 @@ shapefile <- sf::st_read(file.path(destination_folder, "tl_2022_us_county.shp"))
 
 cps <- cps %>%
   janitor::clean_names() %>%
-  select(-year, -month, -mbpl, -fbpl, -asian, -asecflag)
+  select(-year, -month, -mbpl, -fbpl, -asian, -asecflag, -cpsidv)
 
-
-# create a boxplot to visualize any outliers
-boxplot <- boxplot(cps)
-
-boxplot
-
-# there is an outlier in the cpsidv variable, we will ensure that the identifier variable is not used in any analysis and drop it from the dataset
-
-cps <- cps %>%
-  select(-cpsidv)
-  
 
 # create variable for health insurance status 
 
