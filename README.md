@@ -1,1 +1,11 @@
 # final_project
+
+The following Github repository explores factors that can contribute to disparities in health and economic outcomes of immigrant communities in the United States. 
+We explored this topic because, while immigration is deeply embedded into the history of the United States and brings many economic and social benefits to the nation, there are persistent, and well-documented, economic and health disparities for these individuals as compared to those born in the United States. 
+First, our analysis explored factors that could contribute to the diverse outcomes within the US immigrant population, given that individuals come from US immigrant population are not a monolith. Individuals have resided for a range of years in the US, have obtained a range of documentation status’, and come from various regions of the world. 
+We utilized a range of publicly available datasets, such as Current Population Survey, American Communities Survey, and Health Resources and Services Administration federally qualified public health centers. 
+First, we utilized an unsupervised machine learning model to understand which factors contribute most to disparities within immigrant communities. We found that the number of years an individual as resided in the United States to be a substantial contributing factor between immigrant clusters. 
+Utilizing this finding, we explored how this variable, among others, could be predictive of an individual’s income, through a supervised machine learning model. 
+After exploring economic status of immigrants, we shifted to utilizing geospatial analysis to investigate health center access in counties with a high proportion of immigrants, given that community health centers play a critical role in delivering health services to this population. 
+Ultimately, because of our research, we recommend that policy makers understand nuance with immigrant communities that would contribute to a range of economic and health outcomes, as well as keep a particular eye towards outcomes of immigrant vs. us-born populations – given persistent disparities that exist. 
+A detailed overview of our analysis, as well as supporting code documentation can be found at this link: org9398/org9398.finalproject.github.io.  
